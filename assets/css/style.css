@@ -352,6 +352,8 @@ a.card:hover .more svg{transform:translateX(4px)}
 .rating-head{display:flex;flex-wrap:wrap;align-items:center;gap:26px;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:26px 30px;margin-bottom:30px}
 .rating-score{font-family:'Sora';font-weight:800;font-size:3.4rem;color:var(--ink);line-height:1}
 .rating-meta .stars{color:var(--gold);font-size:1.25rem;letter-spacing:3px}
+.star-partial{position:relative;display:inline-block;color:#d0d0d0}
+.star-fill{position:absolute;top:0;left:0;overflow:hidden;white-space:nowrap;color:var(--gold)}
 .rating-meta p{color:var(--muted);font-size:.92rem;margin-top:4px}
 .rating-head .g{margin-left:auto;display:flex;align-items:center;gap:10px;font-weight:600;font-family:'Sora';font-size:.95rem}
 .reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
