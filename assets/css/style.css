@@ -24,7 +24,7 @@
 }
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:hidden}
 body{
   font-family:'Inter',system-ui,sans-serif;
   color:var(--ink);
@@ -121,7 +121,7 @@ header.nav.solid .nav-logo img{height:40px}
 
 /* ============ HERO (accueil) — fond noir + camion animé ============ */
 .hero{
-  position:relative;min-height:100svh;overflow:hidden;color:#fff;
+  position:relative;min-height:100svh;overflow:hidden;overflow-x:clip;color:#fff;
   display:flex;flex-direction:column;background:#000;isolation:isolate;
 }
 .hero::before{
@@ -196,7 +196,7 @@ body.home header.nav:not(.scrolled) .burger span{background:#fff}
 .rear-figures .f span{display:block;margin-top:7px;font-size:.85rem;letter-spacing:.01em;color:rgba(255,255,255,.6)}
 .rear-showcase .btn-ghost{color:#fff;border-color:rgba(255,255,255,.28)}
 .rear-showcase .btn-ghost:hover{color:#fff;border-color:#fff;background:rgba(255,255,255,.08)}
-.rear-truck{position:relative;overflow:hidden}
+.rear-truck{position:relative;overflow:hidden;overflow-x:clip}
 .rear-truck-img{display:block;width:100%;height:auto;transform:translateX(-118%);will-change:transform}
 .rear-truck.in .rear-truck-img{transform:translateX(0);transition:transform 1.25s cubic-bezier(.16,.72,.24,1)}
 @media(max-width:860px){
