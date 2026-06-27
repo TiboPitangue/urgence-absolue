@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 320">
+<rect width="800" height="320" fill="#f5f4f0"/>
+<ellipse cx="400" cy="299" rx="318" ry="11" fill="rgba(0,0,0,.10)"/>
+
+<!-- Cab body -->
+<path d="M42,258 L42,163 L80,81 L97,55 L230,55 L230,258 Z" fill="#161616"/>
+<!-- Cab top fairing -->
+<rect x="97" y="45" width="133" height="12" rx="4" fill="#242424"/>
+<!-- Windshield -->
+<path d="M47,163 L84,83 L100,77 L218,77 L218,163 Z" fill="#1a2d44" opacity=".88"/>
+<!-- Cab window strip -->
+<rect x="100" y="77" width="118" height="86" rx="4" fill="#1a2d44" opacity=".80"/>
+<!-- Cab door line -->
+<line x1="167" y1="73" x2="167" y2="258" stroke="#1e1e1e" stroke-width="2"/>
+<!-- Front light -->
+<rect x="34" y="158" width="10" height="26" rx="3" fill="#f0c040" opacity=".8"/>
+<!-- Bumper -->
+<rect x="32" y="220" width="16" height="36" rx="4" fill="#1e1e1e"/>
+<!-- Grill -->
+<rect x="30" y="168" width="16" height="128" rx="2" fill="#1e1e1e"/>
+<!-- Mirror -->
+<rect x="24" y="93" width="14" height="20" rx="3" fill="#1e1e1e"/>
+
+<rect x="228" y="55" width="6" height="203" fill="#0f0f0f"/>
+
+<!-- Box body -->
+<rect x="232" y="55" width="494" height="203" fill="#161616"/>
+<rect x="232" y="55" width="494" height="10" fill="#242424"/>
+<!-- Body vertical lines -->
+<line x1="395" y1="55" x2="395" y2="258" stroke="#1e1e1e" stroke-width="2"/>
+<line x1="558" y1="55" x2="558" y2="258" stroke="#1e1e1e" stroke-width="2"/>
+<!-- Red stripe body -->
+<rect x="232" y="183" width="494" height="16" fill="#C1372A"/>
+<text x="479" y="226" font-family="Arial Black,Arial,sans-serif" font-size="17" font-weight="900" fill="white" text-anchor="middle" letter-spacing="1.5">URGENCE ABSOLUE</text><text x="479" y="248" font-family="Arial,sans-serif" font-size="9" fill="rgba(255,255,255,.4)" text-anchor="middle" letter-spacing="2">GROUPE L.P.E</text>
+<!-- Rear lights -->
+<rect x="726" y="75" width="12" height="32" rx="3" fill="#C1372A"/>
+
+
+<rect x="42" y="258" width="696" height="10" rx="2" fill="#0f0f0f"/>
+
+<!-- 3 axles -->
+<ellipse cx="158" cy="258" rx="60" ry="12" fill="#0f0f0f"/>
+<ellipse cx="578" cy="258" rx="60" ry="12" fill="#0f0f0f"/>
+<ellipse cx="652" cy="258" rx="60" ry="12" fill="#0f0f0f"/>
+<circle cx="158" cy="276" r="52" fill="#0f0f0f"/><circle cx="158" cy="276" r="41.6" fill="#1a1a1a"/><circle cx="158" cy="276" r="27.0" fill="#222"/><line x1="171.5" y1="283.8" x2="193.1" y2="296.3" stroke="#2e2e2e" stroke-width="3.5"/><line x1="158.0" y1="291.6" x2="158.0" y2="316.6" stroke="#2e2e2e" stroke-width="3.5"/><line x1="144.5" y1="283.8" x2="122.9" y2="296.3" stroke="#2e2e2e" stroke-width="3.5"/><line x1="144.5" y1="268.2" x2="122.9" y2="255.7" stroke="#2e2e2e" stroke-width="3.5"/><line x1="158.0" y1="260.4" x2="158.0" y2="235.4" stroke="#2e2e2e" stroke-width="3.5"/><line x1="171.5" y1="268.2" x2="193.1" y2="255.7" stroke="#2e2e2e" stroke-width="3.5"/><circle cx="158" cy="276" r="10.9" fill="#333"/><circle cx="158" cy="276" r="4.2" fill="#666"/>
+<circle cx="578" cy="276" r="52" fill="#0f0f0f"/><circle cx="578" cy="276" r="41.6" fill="#1a1a1a"/><circle cx="578" cy="276" r="27.0" fill="#222"/><line x1="591.5" y1="283.8" x2="613.1" y2="296.3" stroke="#2e2e2e" stroke-width="3.5"/><line x1="578.0" y1="291.6" x2="578.0" y2="316.6" stroke="#2e2e2e" stroke-width="3.5"/><line x1="564.5" y1="283.8" x2="542.9" y2="296.3" stroke="#2e2e2e" stroke-width="3.5"/><line x1="564.5" y1="268.2" x2="542.9" y2="255.7" stroke="#2e2e2e" stroke-width="3.5"/><line x1="578.0" y1="260.4" x2="578.0" y2="235.4" stroke="#2e2e2e" stroke-width="3.5"/><line x1="591.5" y1="268.2" x2="613.1" y2="255.7" stroke="#2e2e2e" stroke-width="3.5"/><circle cx="578" cy="276" r="10.9" fill="#333"/><circle cx="578" cy="276" r="4.2" fill="#666"/>
+<circle cx="652" cy="276" r="52" fill="#0f0f0f"/><circle cx="652" cy="276" r="41.6" fill="#1a1a1a"/><circle cx="652" cy="276" r="27.0" fill="#222"/><line x1="665.5" y1="283.8" x2="687.1" y2="296.3" stroke="#2e2e2e" stroke-width="3.5"/><line x1="652.0" y1="291.6" x2="652.0" y2="316.6" stroke="#2e2e2e" stroke-width="3.5"/><line x1="638.5" y1="283.8" x2="616.9" y2="296.3" stroke="#2e2e2e" stroke-width="3.5"/><line x1="638.5" y1="268.2" x2="616.9" y2="255.7" stroke="#2e2e2e" stroke-width="3.5"/><line x1="652.0" y1="260.4" x2="652.0" y2="235.4" stroke="#2e2e2e" stroke-width="3.5"/><line x1="665.5" y1="268.2" x2="687.1" y2="255.7" stroke="#2e2e2e" stroke-width="3.5"/><circle cx="652" cy="276" r="10.9" fill="#333"/><circle cx="652" cy="276" r="4.2" fill="#666"/>
+</svg>

@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 320">
+<rect width="800" height="320" fill="#f5f4f0"/>
+<ellipse cx="400" cy="300" rx="310" ry="11" fill="rgba(0,0,0,.10)"/>
+<!-- Body (taller, longer) -->
+<path d="M72,268 L72,222 Q82,172 122,140 L158,72 L650,72 Q686,72 700,112 L710,218 L710,268 Z" fill="#161616"/>
+<path d="M158,72 L650,72 Q683,72 698,108 L698,99 Q682,65 650,65 L158,65 Z" fill="#242424"/>
+<!-- Windshield -->
+<path d="M126,137 L160,74 L258,74 L258,148 Z" fill="#1a2d44" opacity=".88"/>
+<!-- A-pillar -->
+<rect x="255" y="72" width="11" height="80" fill="#161616"/>
+<!-- Driver window -->
+<rect x="269" y="80" width="128" height="58" rx="5" fill="#1a2d44" opacity=".85"/>
+<!-- B-pillar -->
+<rect x="396" y="72" width="11" height="80" fill="#161616"/>
+<!-- Sliding door -->
+<line x1="530" y1="80" x2="530" y2="248" stroke="#1e1e1e" stroke-width="2.5"/>
+<!-- Hayon hint (rear door line) -->
+<line x1="695" y1="110" x2="695" y2="248" stroke="#1e1e1e" stroke-width="1.5" stroke-dasharray="6,4"/>
+<!-- Red stripe -->
+<rect x="72" y="208" width="638" height="16" fill="#C1372A"/>
+<!-- Branding -->
+<text x="480" y="252" font-family="Arial Black,Arial,sans-serif" font-size="17" font-weight="900" fill="white" text-anchor="middle" letter-spacing="1.5">URGENCE ABSOLUE</text><text x="480" y="274" font-family="Arial,sans-serif" font-size="9" fill="rgba(255,255,255,.4)" text-anchor="middle" letter-spacing="2">GROUPE L.P.E</text>
+<!-- Rear lights -->
+<rect x="697" y="170" width="14" height="30" rx="3" fill="#C1372A"/>
+<rect x="697" y="205" width="14" height="12" rx="2" fill="#f60" opacity=".6"/>
+<!-- Hayon label -->
+<text x="706" y="245" font-family="Arial,sans-serif" font-size="9" fill="#999" text-anchor="middle" transform="rotate(90,706,245)">HAYON</text>
+<!-- Front light -->
+<rect x="65" y="190" width="10" height="30" rx="3" fill="#f0c040" opacity=".8"/>
+<!-- Bumpers -->
+<rect x="62" y="238" width="14" height="26" rx="3" fill="#1e1e1e"/>
+<rect x="703" y="244" width="12" height="22" rx="3" fill="#1e1e1e"/>
+<!-- Sill -->
+<rect x="128" y="260" width="562" height="9" rx="4" fill="#0f0f0f"/>
+<!-- Wheel arches -->
+<ellipse cx="200" cy="270" rx="66" ry="14" fill="#0f0f0f"/>
+<ellipse cx="612" cy="270" rx="66" ry="14" fill="#0f0f0f"/>
+<circle cx="200" cy="284" r="54" fill="#0f0f0f"/><circle cx="200" cy="284" r="43.2" fill="#1a1a1a"/><circle cx="200" cy="284" r="28.1" fill="#222"/><line x1="214.0" y1="292.1" x2="236.5" y2="305.1" stroke="#2e2e2e" stroke-width="3.5"/><line x1="200.0" y1="300.2" x2="200.0" y2="326.1" stroke="#2e2e2e" stroke-width="3.5"/><line x1="186.0" y1="292.1" x2="163.5" y2="305.1" stroke="#2e2e2e" stroke-width="3.5"/><line x1="186.0" y1="275.9" x2="163.5" y2="262.9" stroke="#2e2e2e" stroke-width="3.5"/><line x1="200.0" y1="267.8" x2="200.0" y2="241.9" stroke="#2e2e2e" stroke-width="3.5"/><line x1="214.0" y1="275.9" x2="236.5" y2="262.9" stroke="#2e2e2e" stroke-width="3.5"/><circle cx="200" cy="284" r="11.3" fill="#333"/><circle cx="200" cy="284" r="4.3" fill="#666"/>
+<circle cx="612" cy="284" r="54" fill="#0f0f0f"/><circle cx="612" cy="284" r="43.2" fill="#1a1a1a"/><circle cx="612" cy="284" r="28.1" fill="#222"/><line x1="626.0" y1="292.1" x2="648.5" y2="305.1" stroke="#2e2e2e" stroke-width="3.5"/><line x1="612.0" y1="300.2" x2="612.0" y2="326.1" stroke="#2e2e2e" stroke-width="3.5"/><line x1="598.0" y1="292.1" x2="575.5" y2="305.1" stroke="#2e2e2e" stroke-width="3.5"/><line x1="598.0" y1="275.9" x2="575.5" y2="262.9" stroke="#2e2e2e" stroke-width="3.5"/><line x1="612.0" y1="267.8" x2="612.0" y2="241.9" stroke="#2e2e2e" stroke-width="3.5"/><line x1="626.0" y1="275.9" x2="648.5" y2="262.9" stroke="#2e2e2e" stroke-width="3.5"/><circle cx="612" cy="284" r="11.3" fill="#333"/><circle cx="612" cy="284" r="4.3" fill="#666"/>
+</svg>

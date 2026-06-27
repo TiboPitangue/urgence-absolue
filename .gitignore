@@ -1,0 +1,25 @@
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Claude
+.claude/
+
+# Dossier sources de travail (non production)
+Image/
+Urgence absolue Fiche client.docx
+
+# Pages de développement/test
+demo-animation.html
+carte-flux.html
+
+# Anciennes versions logos
+assets/img/logos-clients/clean/
+assets/img/logos-clients/Claas_Logo.svg.png
+assets/img/logos-clients/FedEx-Logo.jpg
+assets/img/logos-clients/claas.png
+
+# Images flotte obsolètes (remplacées par les versions IA)
+assets/img/flotte-utilitaire.png
+assets/img/flotte-porteur-19.png
+assets/img/flotte-master-20.png

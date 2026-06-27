@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 320">
+<rect width="800" height="320" fill="#f5f4f0"/>
+<ellipse cx="390" cy="298" rx="295" ry="11" fill="rgba(0,0,0,.10)"/>
+
+<!-- Cab body -->
+<path d="M68,262 L68,167 L106,94 L123,68 L258,68 L258,262 Z" fill="#161616"/>
+<!-- Cab top fairing -->
+<rect x="123" y="58" width="135" height="12" rx="4" fill="#242424"/>
+<!-- Windshield -->
+<path d="M73,167 L110,96 L126,90 L246,90 L246,167 Z" fill="#1a2d44" opacity=".88"/>
+<!-- Cab window strip -->
+<rect x="126" y="90" width="120" height="77" rx="4" fill="#1a2d44" opacity=".80"/>
+<!-- Cab door line -->
+<line x1="193" y1="86" x2="193" y2="262" stroke="#1e1e1e" stroke-width="2"/>
+<!-- Front light -->
+<rect x="60" y="162" width="10" height="26" rx="3" fill="#f0c040" opacity=".8"/>
+<!-- Bumper -->
+<rect x="58" y="224" width="16" height="36" rx="4" fill="#1e1e1e"/>
+<!-- Grill -->
+<rect x="56" y="172" width="16" height="132" rx="2" fill="#1e1e1e"/>
+<!-- Mirror -->
+<rect x="50" y="106" width="14" height="20" rx="3" fill="#1e1e1e"/>
+
+<!-- Cab-body join -->
+<rect x="251" y="68" width="6" height="194" fill="#0f0f0f"/>
+
+<!-- Tarp frame top -->
+<rect x="255" y="68" width="405" height="12" rx="3" fill="#242424"/>
+<!-- Tarp body -->
+<rect x="255" y="80" width="405" height="182" fill="#161616"/>
+<!-- Tarp folds -->
+<line x1="356" y1="80" x2="356" y2="262" stroke="#1f1f1f" stroke-width="2.5"/>
+<line x1="457" y1="80" x2="457" y2="262" stroke="#1f1f1f" stroke-width="2.5"/>
+<line x1="558" y1="80" x2="558" y2="262" stroke="#1f1f1f" stroke-width="2.5"/>
+<!-- Red stripe -->
+<rect x="255" y="192" width="405" height="15" fill="#C1372A"/>
+<text x="457" y="232" font-family="Arial Black,Arial,sans-serif" font-size="16" font-weight="900" fill="white" text-anchor="middle" letter-spacing="1.5">URGENCE ABSOLUE</text><text x="457" y="253" font-family="Arial,sans-serif" font-size="8" fill="rgba(255,255,255,.4)" text-anchor="middle" letter-spacing="2">GROUPE L.P.E</text>
+<!-- Rear lights -->
+<rect x="660" y="88" width="12" height="32" rx="3" fill="#C1372A"/>
+
+
+<rect x="68" y="262" width="604" height="10" rx="2" fill="#0f0f0f"/>
+
+<!-- Wheel arches -->
+<ellipse cx="182" cy="262" rx="60" ry="13" fill="#0f0f0f"/>
+<ellipse cx="570" cy="262" rx="60" ry="13" fill="#0f0f0f"/>
+<circle cx="182" cy="282" r="52" fill="#0f0f0f"/><circle cx="182" cy="282" r="41.6" fill="#1a1a1a"/><circle cx="182" cy="282" r="27.0" fill="#222"/><line x1="195.5" y1="289.8" x2="217.1" y2="302.3" stroke="#2e2e2e" stroke-width="3.5"/><line x1="182.0" y1="297.6" x2="182.0" y2="322.6" stroke="#2e2e2e" stroke-width="3.5"/><line x1="168.5" y1="289.8" x2="146.9" y2="302.3" stroke="#2e2e2e" stroke-width="3.5"/><line x1="168.5" y1="274.2" x2="146.9" y2="261.7" stroke="#2e2e2e" stroke-width="3.5"/><line x1="182.0" y1="266.4" x2="182.0" y2="241.4" stroke="#2e2e2e" stroke-width="3.5"/><line x1="195.5" y1="274.2" x2="217.1" y2="261.7" stroke="#2e2e2e" stroke-width="3.5"/><circle cx="182" cy="282" r="10.9" fill="#333"/><circle cx="182" cy="282" r="4.2" fill="#666"/>
+<circle cx="570" cy="282" r="52" fill="#0f0f0f"/><circle cx="570" cy="282" r="41.6" fill="#1a1a1a"/><circle cx="570" cy="282" r="27.0" fill="#222"/><line x1="583.5" y1="289.8" x2="605.1" y2="302.3" stroke="#2e2e2e" stroke-width="3.5"/><line x1="570.0" y1="297.6" x2="570.0" y2="322.6" stroke="#2e2e2e" stroke-width="3.5"/><line x1="556.5" y1="289.8" x2="534.9" y2="302.3" stroke="#2e2e2e" stroke-width="3.5"/><line x1="556.5" y1="274.2" x2="534.9" y2="261.7" stroke="#2e2e2e" stroke-width="3.5"/><line x1="570.0" y1="266.4" x2="570.0" y2="241.4" stroke="#2e2e2e" stroke-width="3.5"/><line x1="583.5" y1="274.2" x2="605.1" y2="261.7" stroke="#2e2e2e" stroke-width="3.5"/><circle cx="570" cy="282" r="10.9" fill="#333"/><circle cx="570" cy="282" r="4.2" fill="#666"/>
+</svg>
