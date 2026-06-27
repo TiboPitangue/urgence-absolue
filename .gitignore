@@ -2,6 +2,9 @@
 .DS_Store
 **/.DS_Store
 
+# Fichiers temporaires Office
+~$*
+
 # Claude
 .claude/
 
