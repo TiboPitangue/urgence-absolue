@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Urgence Absolue · Réseau de livraison France</title>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{
+  width:100%;height:100%;overflow:hidden;
+  font-family:system-ui,-apple-system,'Segoe UI',sans-serif;
+  /* Fond blanc pour aperçu — mettre transparent lors de l'intégration */
+  background:#fff;
+}
+#app{position:relative;width:100vw;height:100vh}
+#map-svg,#flow-cvs{position:absolute;inset:0;width:100%;height:100%}
+
+/* ── UI chrome (adapté fond clair) ── */
+#header{
+  position:absolute;top:0;left:0;right:0;
+  padding:22px 30px;
+  display:flex;align-items:flex-start;gap:10px;
+  pointer-events:none;
+}
+.brand{color:#111;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;opacity:.85;line-height:1.3}
+.brand-sub{color:rgba(0,0,0,.38);font-size:10px;font-weight:400;letter-spacing:.1em;text-transform:uppercase;margin-top:3px}
+.red-bar{width:2px;height:30px;background:#C1372A;border-radius:2px;flex-shrink:0;margin-top:2px;box-shadow:0 0 8px rgba(193,55,42,.4)}
+#footer{
+  position:absolute;bottom:22px;left:50%;transform:translateX(-50%);
+  display:flex;align-items:center;gap:9px;
+  color:rgba(0,0,0,.32);font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;
+  pointer-events:none;white-space:nowrap;
+}
+.pip{width:6px;height:6px;border-radius:50%;background:#C1372A;flex-shrink:0;box-shadow:0 0 6px rgba(193,55,42,.5)}
+#loading{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  color:rgba(0,0,0,.35);font-size:13px;letter-spacing:.1em;
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <svg id="map-svg"></svg>
+  <canvas id="flow-cvs"></canvas>
+  <div id="header">
+    <div class="red-bar"></div>
+    <div>
+      <div class="brand">Urgence Absolue &nbsp;·&nbsp; Groupe L.P.E</div>
+      <div class="brand-sub">Réseau de livraison — France entière</div>
+    </div>
+  </div>
+  <div id="loading">Chargement de la carte…</div>
+</div>
+
+<script>
+'use strict';
+
+/* ══════════════════════════════════════════════════════
+   PALETTE
+══════════════════════════════════════════════════════ */
+const BRAND  = '#C1372A';
+const BRIGHT = '#E85535';
+
+/* ══════════════════════════════════════════════════════
+   DONNÉES GÉOGRAPHIQUES
+══════════════════════════════════════════════════════ */
+const ORIGIN = { lon: 1.383, lat: 43.735 }; // Saint-Alban (31)
+
+// Centre géographique de la France métropolitaine (utilisé pour courber les arcs vers l'intérieur)
+const FRANCE_CENTER = { lon: 2.5, lat: 46.5 };
+
+const OCCITANIE = new Set(['09','11','12','30','31','32','34','46','48','65','66','81','82']);
+
+/*
+  Zones d'activité (brochure Groupe L.P.E) :
+  ● Orange = activité maximale  : 31, 32, 65, 09
+  ● Blanc  = activité très forte : 12, 40, 46, 47, 64, 81, 82
+  ● Reste de la France : flux existants mais moins fréquents
+*/
+const CITIES = [
+
+  /* ── Zone ORANGE — activité maximale (depts 31, 32, 65, 09) ── */
+  { lon: 1.444,  lat:43.604, w:22 }, // Toulouse          (31)
+  { lon: 0.586,  lat:43.646, w:16 }, // Auch              (32)
+  { lon: 0.078,  lat:43.233, w:14 }, // Tarbes            (65)
+  { lon: 1.606,  lat:42.964, w:12 }, // Foix              (09)
+
+  /* ── Zone BLANCHE — activité très forte (depts 12, 40, 46, 47, 64, 81, 82) ── */
+  { lon: 1.352,  lat:44.017, w:12 }, // Montauban         (82)
+  { lon: 2.148,  lat:43.929, w:11 }, // Albi              (81)
+  { lon: 2.575,  lat:44.352, w:10 }, // Rodez             (12)
+  { lon: 0.621,  lat:44.200, w:10 }, // Agen              (47)
+  { lon:-0.371,  lat:43.296, w: 9 }, // Pau               (64)
+  { lon: 1.442,  lat:44.450, w: 9 }, // Cahors            (46)
+  { lon:-0.498,  lat:43.891, w: 9 }, // Mont-de-Marsan    (40)
+  { lon:-1.473,  lat:43.493, w: 7 }, // Bayonne           (64/40)
+  { lon: 3.080,  lat:44.100, w: 6 }, // Millau            (12)
+
+  /* ── Reste de l'Occitanie ── fréquence modérée ── */
+  { lon: 3.877,  lat:43.611, w: 8 }, // Montpellier       (34)
+  { lon: 4.360,  lat:43.837, w: 7 }, // Nîmes             (30)
+  { lon: 2.895,  lat:42.699, w: 6 }, // Perpignan         (66)
+  { lon: 2.353,  lat:43.213, w: 5 }, // Carcassonne       (11)
+  { lon: 3.215,  lat:43.344, w: 4 }, // Béziers           (34)
+  { lon: 3.003,  lat:43.184, w: 3 }, // Narbonne          (11)
+
+  /* ── Grandes villes — fréquence moyenne ── */
+  { lon:-0.579,  lat:44.837, w: 6 }, // Bordeaux
+  { lon: 2.352,  lat:48.857, w:12 }, // Paris
+  { lon: 5.381,  lat:43.297, w: 6 }, // Marseille
+  { lon: 4.847,  lat:45.748, w: 6 }, // Lyon
+
+  /* ── Reste de la France — faible fréquence ── */
+  { lon:-1.554,  lat:47.218, w: 2 }, // Nantes
+  { lon: 7.752,  lat:48.573, w: 2 }, // Strasbourg
+  { lon: 3.057,  lat:50.629, w: 2 }, // Lille
+  { lon:-1.677,  lat:48.113, w: 2 }, // Rennes
+  { lon: 7.262,  lat:43.710, w: 2 }, // Nice
+  { lon: 5.724,  lat:45.188, w: 2 }, // Grenoble
+  { lon: 3.082,  lat:45.778, w: 2 }, // Clermont-Ferrand
+  { lon: 5.041,  lat:47.322, w: 1 }, // Dijon
+  { lon: 1.099,  lat:49.443, w: 1 }, // Rouen
+  { lon:-4.486,  lat:48.390, w: 1 }, // Brest
+  { lon: 4.032,  lat:49.258, w: 1 }, // Reims
+  { lon: 6.177,  lat:49.119, w: 1 }, // Metz
+  { lon:-0.371,  lat:49.183, w: 1 }, // Caen
+  { lon: 0.690,  lat:47.394, w: 1 }, // Tours
+  { lon: 1.261,  lat:45.833, w: 1 }, // Limoges
+  { lon: 0.340,  lat:46.580, w: 1 }, // Poitiers
+  { lon: 1.909,  lat:47.902, w: 1 }, // Orléans
+  { lon: 2.296,  lat:49.894, w: 1 }, // Amiens
+];
+
+const POOL = [];
+CITIES.forEach(c => { for (let i=0; i<c.w; i++) POOL.push(c); });
+
+/* ══════════════════════════════════════════════════════
+   SETUP
+══════════════════════════════════════════════════════ */
+const W = window.innerWidth, H = window.innerHeight;
+const svg = d3.select('#map-svg').attr('width', W).attr('height', H);
+const cvs = document.getElementById('flow-cvs');
+cvs.width = W; cvs.height = H;
+const ctx = cvs.getContext('2d');
+
+let proj, originPx, franceCenterPx;
+const flows = [], flashes = [];
+
+/* ══════════════════════════════════════════════════════
+   CHARGEMENT CARTE
+══════════════════════════════════════════════════════ */
+async function init() {
+  let geoData;
+  try {
+    geoData = await d3.json(
+      'https://cdn.jsdelivr.net/gh/gregoiredavid/france-geojson@master/departements-version-simplifiee.geojson'
+    );
+  } catch(e) {
+    document.getElementById('loading').innerHTML = '⚠&nbsp; Connexion internet requise.';
+    return;
+  }
+
+  // Métropole uniquement
+  const features = geoData.features.filter(f => {
+    const c = f.properties.code, n = parseInt(c);
+    return (!isNaN(n) && n >= 1 && n <= 95) || c === '2A' || c === '2B';
+  });
+  const geo = { type:'FeatureCollection', features };
+
+  proj = d3.geoMercator().fitExtent([[W*.07, H*.09],[W*.93, H*.91]], geo);
+  const gpath = d3.geoPath(proj);
+
+  // ── Départements (intérieur noir, contours blancs discrets) ──
+  svg.append('g').selectAll('path')
+    .data(features).join('path')
+    .attr('d', gpath)
+    .attr('fill', f => OCCITANIE.has(f.properties.code) ? '#0f0a09' : '#0c0c0c')
+    .attr('stroke', f => OCCITANIE.has(f.properties.code)
+      ? 'rgba(255,255,255,.20)' : 'rgba(255,255,255,.11)')
+    .attr('stroke-width', '.6')
+    .attr('stroke-linejoin', 'round');
+
+  // ── Conversion coordonnées ──
+  const px = c => { const [x,y] = proj([c.lon, c.lat]); return {x,y}; };
+  originPx = px(ORIGIN);
+  CITIES.forEach(c => c.px = px(c));
+
+  // Centre de France en pixels (pour orienter les arcs vers l'intérieur du territoire)
+  franceCenterPx = px(FRANCE_CENTER);
+
+  // ── Seul marqueur : point rouge Saint-Alban (sans label) ──
+  svg.append('circle')
+    .attr('cx', originPx.x).attr('cy', originPx.y).attr('r', 5)
+    .attr('fill', BRAND)
+    .attr('filter','drop-shadow(0 0 7px #C1372A)');
+
+  document.getElementById('loading').style.display = 'none';
+
+  // ── Boucle animation ──
+  let nextSpawn = performance.now() + 150;
+  function loop(now) {
+    ctx.clearRect(0, 0, W, H);
+    drawPulse(now);
+
+    for (let i = flashes.length-1; i >= 0; i--) {
+      flashes[i].upd(now); flashes[i].drw();
+      if (flashes[i].done) flashes.splice(i, 1);
+    }
+    for (let i = flows.length-1; i >= 0; i--) {
+      const f = flows[i];
+      f.upd(now);
+      if (f.wantFlash) { flashes.push(new Flash(f.to)); f.wantFlash = false; }
+      // Retour décalé : chaque aller a son propre délai aléatoire avant de repartir
+      if (f.returnAfter !== null && now >= f.returnAfter) {
+        flows.push(new Flow(f.to, f.from, f.w, false));
+        f.returnAfter = null;
+      }
+      f.drw();
+      if (f.done) flows.splice(i, 1);
+    }
+
+    if (now >= nextSpawn) {
+      // Plafond à ~20 arcs simultanés pour ne pas surcharger l'écran
+      if (flows.length < 20) {
+        spawnFlow();
+        if (Math.random() < .45) spawnFlow(); // double fréquent
+        if (Math.random() < .15) spawnFlow(); // triple occasionnel
+      }
+      nextSpawn = now + 90 + Math.random() * 180; // rythme ~130 ms (était 350-850 ms)
+    }
+
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+}
+
+/* ══════════════════════════════════════════════════════
+   SPAWN — toujours un aller (le retour est auto)
+══════════════════════════════════════════════════════ */
+function spawnFlow() {
+  const city = POOL[Math.floor(Math.random() * POOL.length)];
+  flows.push(new Flow(originPx, city.px, city.w, true));
+}
+
+/* ══════════════════════════════════════════════════════
+   PULSE (anneaux pulsants à l'origine)
+══════════════════════════════════════════════════════ */
+function drawPulse(now) {
+  const period = 2600;
+  for (let p = 0; p < 2; p++) {
+    const t = ((now + p * (period/2)) % period) / period;
+    const r = 7 + t * 30;
+    const a = (1 - t) * (p ? .25 : .45);
+    ctx.save();
+    ctx.strokeStyle = BRAND; ctx.lineWidth = p ? 1 : 1.5;
+    ctx.globalAlpha = a;
+    ctx.shadowColor = BRAND; ctx.shadowBlur = 10;
+    ctx.beginPath(); ctx.arc(originPx.x, originPx.y, r, 0, Math.PI*2); ctx.stroke();
+    ctx.restore();
+  }
+}
+
+/* ══════════════════════════════════════════════════════
+   FLASH (cercle à l'arrivée)
+══════════════════════════════════════════════════════ */
+class Flash {
+  constructor(pt) {
+    this.x = pt.x; this.y = pt.y;
+    this.t0 = performance.now(); this.done = false;
+  }
+  upd(now) { this.t = Math.min(1,(now-this.t0)/460); if(this.t>=1) this.done=true; }
+  drw() {
+    const r=2+this.t*15, a=(1-this.t)*.8;
+    ctx.save();
+    ctx.strokeStyle=BRIGHT; ctx.lineWidth=1.5; ctx.globalAlpha=a;
+    ctx.shadowColor=BRAND; ctx.shadowBlur=12;
+    ctx.beginPath(); ctx.arc(this.x,this.y,r,0,Math.PI*2); ctx.stroke();
+    ctx.restore();
+  }
+}
+
+/* ══════════════════════════════════════════════════════
+   FLOW — aller ou retour (trait qui se dessine)
+   Point de contrôle orienté vers le centre de France
+   pour que les arcs restent sur le territoire.
+══════════════════════════════════════════════════════ */
+class Flow {
+  constructor(from, to, w, autoReturn = false) {
+    this.from = { ...from }; this.to = { ...to };
+    this.w = w; this.autoReturn = autoReturn;
+
+    /* ── Point de contrôle ────────────────────────────────
+       On part du milieu du segment, puis on se déplace
+       en direction du centre de la France métropolitaine.
+       Un petit jitter perpendiculaire apporte de la variété
+       sans risquer de sortir du territoire.
+    ──────────────────────────────────────────────────── */
+    const mx = (this.from.x + this.to.x) / 2;
+    const my = (this.from.y + this.to.y) / 2;
+    const len = Math.hypot(this.to.x - this.from.x, this.to.y - this.from.y);
+
+    // Vecteur midpoint → centre France
+    const fcDx = franceCenterPx.x - mx;
+    const fcDy = franceCenterPx.y - my;
+    const fcLen = Math.hypot(fcDx, fcDy) || 1;
+
+    // Vecteur perpendiculaire (pour la variation)
+    const perpX = -fcDy / fcLen;
+    const perpY =  fcDx / fcLen;
+
+    // Jitter ±30 % en perpendiculaire
+    const jitter = (Math.random() - 0.5) * 0.6;
+    const curv = len * (0.18 + Math.random() * 0.14);
+
+    this.cp = {
+      x: mx + (fcDx / fcLen + perpX * jitter) * curv,
+      y: my + (fcDy / fcLen + perpY * jitter) * curv
+    };
+
+    this.dur = 2000 + len * 1.4 + Math.random() * 600;
+    this.t0  = performance.now();
+    this.p=0; this.op=1;
+    this.phase='draw'; this.pauseAt=0;
+    this.wantFlash=false; this.done=false;
+    // Délai aléatoire avant le départ du retour (300 ms → 2 500 ms)
+    // null = pas de retour prévu (flux retour) ou pas encore arrivé
+    this.returnAfter = null;
+    this._returnDelay = autoReturn ? (300 + Math.random() * 2200) : 0;
+  }
+
+  bez(t)  { const u=1-t; return { x:u*u*this.from.x+2*u*t*this.cp.x+t*t*this.to.x, y:u*u*this.from.y+2*u*t*this.cp.y+t*t*this.to.y }; }
+  cpAt(t) { return { x:(1-t)*this.from.x+t*this.cp.x, y:(1-t)*this.from.y+t*this.cp.y }; }
+
+  upd(now) {
+    const el=now-this.t0;
+    if (this.phase==='draw') {
+      this.p=Math.min(1,el/this.dur);
+      if (this.p>=1) {
+        this.phase='pause'; this.pauseAt=now;
+        this.wantFlash=true;
+        if (this.autoReturn) this.returnAfter = now + this._returnDelay; // programme le retour avec son délai propre
+      }
+    } else if (this.phase==='pause') {
+      if (now-this.pauseAt>280) { this.phase='fade'; this.t0=now; }
+    } else {
+      this.op=Math.max(0,1-(now-this.t0)/700);
+      if (this.op<=0) this.done=true;
+    }
+  }
+
+  drw() {
+    if (this.done) return;
+    const head=this.bez(this.p), cp_=this.cpAt(this.p);
+    ctx.save();
+    ctx.globalAlpha=this.op;
+    ctx.strokeStyle=BRAND; ctx.lineWidth=this.w>=8?1.7:1.25; ctx.lineCap='round';
+    ctx.shadowColor=BRAND; ctx.shadowBlur=this.w>=8?10:6;
+    ctx.beginPath();
+    ctx.moveTo(this.from.x,this.from.y);
+    ctx.quadraticCurveTo(cp_.x,cp_.y,head.x,head.y);
+    ctx.stroke();
+    if (this.phase==='draw') {
+      ctx.fillStyle='#ff7050'; ctx.shadowBlur=16; ctx.globalAlpha=this.op*.92;
+      ctx.beginPath(); ctx.arc(head.x,head.y,2.5,0,Math.PI*2); ctx.fill();
+    }
+    ctx.restore();
+  }
+}
+
+/* ══════════════════════════════════════════════════════
+   LANCEMENT
+══════════════════════════════════════════════════════ */
+init();
+</script>
+</body>
+</html>
