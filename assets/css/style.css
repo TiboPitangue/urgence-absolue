@@ -157,6 +157,9 @@ header.nav.solid .nav-logo img{height:40px}
   position:relative;z-index:2;
   width:min(900px,86%);margin:auto auto clamp(10px,3vh,36px);
   overflow:hidden;pointer-events:none;
+  /* Force compositor layer sur iOS Safari — clip plus fiable des transforms enfants */
+  -webkit-transform:translateZ(0);transform:translateZ(0);
+  clip-path:inset(0);
 }
 .hero-truck-img{
   display:block;width:100%;height:auto;
@@ -167,14 +170,8 @@ header.nav.solid .nav-logo img{height:40px}
   transform:translateX(0);
   transition:transform 1.5s cubic-bezier(.16,.72,.24,1) .25s;
 }
-/* Mobile : pas de slide horizontal (évite l'overflow iOS Safari) — fondu simple */
-@media(max-width:760px){
-  .hero-truck-img{transform:none;opacity:0}
-  .hero-truck.in .hero-truck-img{opacity:1;transition:opacity .9s ease .3s}
-}
 @media(prefers-reduced-motion:reduce){
-  .hero-truck-img{transform:none;opacity:1}
-  .hero-truck.in .hero-truck-img{transition:none}
+  .hero-truck-img{transform:none}
 }
 
 /* Nav lisible au-dessus du hero noir (accueil, tant qu'on n'a pas défilé) */
@@ -202,13 +199,9 @@ body.home header.nav:not(.scrolled) .burger span{background:#fff}
 .rear-figures .f span{display:block;margin-top:7px;font-size:.85rem;letter-spacing:.01em;color:rgba(255,255,255,.6)}
 .rear-showcase .btn-ghost{color:#fff;border-color:rgba(255,255,255,.28)}
 .rear-showcase .btn-ghost:hover{color:#fff;border-color:#fff;background:rgba(255,255,255,.08)}
-.rear-truck{position:relative;overflow:hidden;overflow-x:clip}
+.rear-truck{position:relative;overflow:hidden;-webkit-transform:translateZ(0);transform:translateZ(0);clip-path:inset(0)}
 .rear-truck-img{display:block;width:100%;height:auto;transform:translateX(-118%);will-change:transform}
 .rear-truck.in .rear-truck-img{transform:translateX(0);transition:transform 1.25s cubic-bezier(.16,.72,.24,1)}
-@media(max-width:760px){
-  .rear-truck-img{transform:none;opacity:0}
-  .rear-truck.in .rear-truck-img{opacity:1;transition:opacity .9s ease .2s}
-}
 @media(max-width:860px){
   .rear-grid{grid-template-columns:1fr;gap:32px}
   .rear-copy p{max-width:none}

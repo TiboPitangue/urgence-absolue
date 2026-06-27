@@ -71,11 +71,28 @@
     revealEls.forEach(function (el) { el.classList.add('in'); });
   }
 
-  // Camion hero — animation unique au chargement (pas de replay pour éviter le jank mobile)
+  // Camion hero — animation unique au chargement
   var heroTruck = document.getElementById('heroTruck');
   if (heroTruck) {
     requestAnimationFrame(function () {
       requestAnimationFrame(function () { heroTruck.classList.add('in'); });
     });
+  }
+
+  // Apparitions qui se REJOUENT à chaque passage (ex. camion arrière)
+  var replayEls = document.querySelectorAll('.replay-reveal');
+  if (replayEls.length && 'IntersectionObserver' in window) {
+    var rio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting && e.intersectionRatio >= 0.3) {
+          e.target.classList.add('in');
+        } else if (e.intersectionRatio === 0) {
+          e.target.classList.remove('in');
+        }
+      });
+    }, { threshold: [0, 0.3] });
+    replayEls.forEach(function (el) { rio.observe(el); });
+  } else {
+    replayEls.forEach(function (el) { el.classList.add('in'); });
   }
 })();
