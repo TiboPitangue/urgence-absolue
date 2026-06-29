@@ -223,6 +223,15 @@ body.home header.nav:not(.scrolled) .burger span{background:#fff}
 .page-hero .eyebrow{color:var(--brand-bright)}
 .page-hero .eyebrow::before{background:var(--brand-bright)}
 .page-hero .hero-cta{margin:30px 0 0}
+/* Variante fond blanc */
+.page-hero.hero-white{background:#fff;color:var(--ink)}
+.page-hero.hero-white::before{display:none}
+.page-hero.hero-white h1{color:var(--ink)}
+.page-hero.hero-white p{color:var(--ink-2)}
+.page-hero.hero-white .breadcrumb,.page-hero.hero-white .breadcrumb a{color:rgba(22,24,29,.45)}
+.page-hero.hero-white .breadcrumb a:hover{color:var(--ink)}
+.page-hero.hero-white .breadcrumb .cur{color:var(--ink)}
+.page-hero.hero-white .ph-logo{position:absolute;right:4%;top:50%;transform:translateY(-50%);width:500px;opacity:.08;pointer-events:none;z-index:0;filter:grayscale(1)}
 
 /* Fil d'Ariane */
 .breadcrumb{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:.85rem;color:rgba(255,255,255,.6);margin-bottom:6px}
