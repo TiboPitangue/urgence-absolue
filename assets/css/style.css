@@ -238,7 +238,7 @@ body.home header.nav:not(.scrolled) .burger span{background:#fff}
 .stats .s span{font-size:.9rem;color:var(--muted);margin-top:8px;display:block}
 
 /* ============ SERVICES ============ */
-.grid-services{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+.grid-services{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
 .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
 .card{
   background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:34px;
@@ -254,6 +254,31 @@ a.card{color:inherit;display:block}
 .card .more{display:inline-flex;align-items:center;gap:7px;margin-top:16px;font-family:'Sora';font-weight:600;font-size:.9rem;color:var(--brand)}
 .card .more svg{width:16px;height:16px;transition:transform .2s}
 a.card:hover .more svg{transform:translateX(4px)}
+
+/* ── Service cards avec photo en fond ── */
+.svc-card{background:var(--ink);border:0;padding:0;min-height:380px;color:#fff}
+.svc-card .card-bg{
+  position:absolute;inset:0;
+  background-size:cover;background-position:center;
+  transition:transform .45s ease;
+}
+.svc-card:hover .card-bg{transform:scale(1.06)}
+.svc-card::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(10,6,5,.9) 0%,rgba(10,6,5,.55) 50%,rgba(10,6,5,.25) 100%);
+  pointer-events:none;
+}
+.svc-card .card-body{
+  position:absolute;inset:0;z-index:1;
+  display:flex;flex-direction:column;justify-content:space-between;
+  padding:26px 28px;
+}
+.svc-card .ic{background:rgba(255,255,255,.15);color:#fff;margin-bottom:0;backdrop-filter:blur(4px)}
+.svc-card h3{color:#fff;font-size:1.15rem;margin:14px 0 8px}
+.svc-card p{color:rgba(255,255,255,.78);font-size:.9rem;line-height:1.55}
+.svc-card .tag{z-index:2;position:absolute;top:18px;right:18px;color:#fff;background:var(--brand)}
+.svc-card .more{color:#fff;margin-top:0;flex-shrink:0}
+.svc-card:hover{transform:translateY(-5px);box-shadow:0 20px 50px -12px rgba(0,0,0,.5);border-color:transparent}
 
 /* ============ SPLIT / ETAPES ============ */
 .split{display:grid;grid-template-columns:1.05fr .95fr;gap:60px;align-items:center}
@@ -475,6 +500,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.75);padding:56px 0 28px}
 @media(max-width:760px){
   .pad{padding:64px 0}
   .grid-services,.grid-3,.perks,.perks.two,.reviews,.stats{grid-template-columns:1fr}
+  .grid-services{grid-template-columns:repeat(2,1fr)}
   .stats{border:0}.stats .s{border:1px solid var(--line);border-radius:12px}
   .grid-2{grid-template-columns:1fr}
   .fleet-panel,.fleet-panel.active{grid-template-columns:1fr}
@@ -485,6 +511,9 @@ footer{background:var(--ink);color:rgba(255,255,255,.75);padding:56px 0 28px}
   /* Boutons : autoriser le retour à la ligne sur petits écrans (évite tout débordement) */
   .btn{white-space:normal;max-width:100%}
   .nav-cta .btn{white-space:nowrap}
+}
+@media(max-width:480px){
+  .grid-services{grid-template-columns:1fr}
 }
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
