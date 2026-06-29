@@ -377,13 +377,13 @@ a.card:hover .more svg{transform:translateX(4px)}
 
 /* ============ RECRUTEMENT ============ */
 .job{display:grid;grid-template-columns:1.3fr .7fr;gap:0;background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
-.job-main{padding:40px}
+.job-main{padding:40px;min-width:0}
 .job-main h3{font-size:1.7rem;color:var(--brand);margin-bottom:4px}
 .job-loc{font-family:'Sora';font-weight:600;color:var(--ink-2);margin-bottom:22px}
 .job-main p{color:var(--ink-2);font-size:.97rem;margin-bottom:14px}
-.job-main .li{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px;font-size:.96rem;color:var(--ink-2)}
-.job-main .li svg{width:18px;height:18px;color:var(--brand);flex:0 0 18px;margin-top:4px}
-.job-side{background:var(--ink);color:#fff;padding:40px 32px}
+.job-main .li{position:relative;padding-left:28px;margin-bottom:10px;font-size:.96rem;color:var(--ink-2)}
+.job-main .li svg{position:absolute;left:0;top:4px;width:18px;height:18px;color:var(--brand)}
+.job-side{background:var(--ink);color:#fff;padding:40px 32px;min-width:0}
 .job-side .salary{font-family:'Sora';font-weight:800;font-size:2.1rem;margin:6px 0}
 .job-side .ctype{font-size:.9rem;color:rgba(255,255,255,.6);letter-spacing:.1em;text-transform:uppercase;font-family:'Sora';font-weight:600}
 .job-side hr{border:0;border-top:1px solid rgba(255,255,255,.15);margin:24px 0}
@@ -482,6 +482,9 @@ footer{background:var(--ink);color:rgba(255,255,255,.75);padding:56px 0 28px}
   .hero-inner{padding-top:120px}
   .cta-band{padding:36px}
   .page-hero{padding:130px 0 52px}
+  /* Boutons : autoriser le retour à la ligne sur petits écrans (évite tout débordement) */
+  .btn{white-space:normal;max-width:100%}
+  .nav-cta .btn{white-space:nowrap}
 }
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
