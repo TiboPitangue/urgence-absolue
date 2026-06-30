@@ -68,19 +68,26 @@
     .logi-card{
       background:#fff;
       border:1px solid var(--line);
-      border-radius:var(--radius);
-      padding:clamp(24px,4vw,40px);
+      border-radius:18px;
+      overflow:hidden;
       display:flex;
       flex-direction:column;
-      gap:14px;
+      box-shadow:0 6px 30px -12px rgba(0,0,0,.12);
+      transition:transform .3s ease,box-shadow .3s ease;
     }
+    .logi-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px -16px rgba(0,0,0,.22)}
+    .logi-card .logi-photo{height:158px;background-size:cover;background-position:center;position:relative}
+    .logi-card .logi-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.25))}
+    .logi-card .logi-body{padding:30px clamp(24px,3vw,32px) clamp(28px,3.5vw,36px);display:flex;flex-direction:column;gap:14px;position:relative}
     .logi-card .logi-icon{
-      width:52px;height:52px;border-radius:12px;
-      background:rgba(193,55,42,.08);
+      width:54px;height:54px;border-radius:14px;
+      background:var(--brand);
       display:grid;place-items:center;flex-shrink:0;
+      position:absolute;top:-27px;left:clamp(24px,3vw,32px);
+      box-shadow:0 8px 20px -6px rgba(193,55,42,.5);
     }
-    .logi-card .logi-icon svg{width:26px;height:26px;stroke:var(--brand);stroke-width:2;fill:none}
-    .logi-card h3{font-family:'Sora',sans-serif;font-size:1.15rem;font-weight:700;color:var(--ink);margin:0}
+    .logi-card .logi-icon svg{width:26px;height:26px;stroke:#fff;stroke-width:2;fill:none}
+    .logi-card h3{font-family:'Sora',sans-serif;font-size:1.15rem;font-weight:700;color:var(--ink);margin:14px 0 0}
     .logi-card p{color:var(--muted);font-size:.95rem;line-height:1.65;margin:0}
     .logi-card ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
     .logi-card ul li{display:flex;align-items:flex-start;gap:9px;font-size:.92rem;color:var(--muted);line-height:1.5}
@@ -285,47 +292,56 @@
 
       <!-- Stockage -->
       <div class="logi-card reveal d1">
-        <div class="logi-icon">
-          <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+        <div class="logi-photo" style="background-image:url('assets/img/entrepot-interieur-1.jpg')"></div>
+        <div class="logi-body">
+          <div class="logi-icon">
+            <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+          </div>
+          <h3>Stockage courte &amp; longue durée</h3>
+          <p>Entreposage au sol ou sur racks, adapté à tous les formats de marchandises. Nous accueillons vos produits secs en palette ou en colis, avec un suivi par codes-barres pour une gestion précise de votre stock.</p>
+          <ul>
+            <li>Stockage en rack pour petits articles et pièces détachées</li>
+            <li>Rayonnage pour produits de taille moyenne</li>
+            <li>Stockage palette pour marchandises lourdes ou volumineuses</li>
+            <li>Option stockage sécurisé pour marchandises de valeur</li>
+          </ul>
         </div>
-        <h3>Stockage courte &amp; longue durée</h3>
-        <p>Entreposage au sol ou sur racks, adapté à tous les formats de marchandises. Nous accueillons vos produits secs en palette ou en colis, avec un suivi par codes-barres pour une gestion précise de votre stock.</p>
-        <ul>
-          <li>Stockage en rack pour petits articles et pièces détachées</li>
-          <li>Rayonnage pour produits de taille moyenne</li>
-          <li>Stockage palette pour marchandises lourdes ou volumineuses</li>
-          <li>Option stockage sécurisé pour marchandises de valeur</li>
-        </ul>
       </div>
 
       <!-- Cross dock -->
       <div class="logi-card reveal d2">
-        <div class="logi-icon">
-          <svg viewBox="0 0 24 24"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+        <div class="logi-photo" style="background-image:url('assets/img/depot-chargement.jpg')"></div>
+        <div class="logi-body">
+          <div class="logi-icon">
+            <svg viewBox="0 0 24 24"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+          </div>
+          <h3>Cross-docking</h3>
+          <p>Transfert direct de vos marchandises d'un véhicule à un autre, avec un stockage intermédiaire minimal. Notre dépôt centralisé trie et consolide les envois par destination — moins d'attente, moins de coûts.</p>
+          <ul>
+            <li>Consolidation des envois par destination</li>
+            <li>Réduction des délais de transit</li>
+            <li>Optimisation des coûts d'entrepôt</li>
+            <li>Site accessible à tous types de véhicules</li>
+          </ul>
         </div>
-        <h3>Cross-docking</h3>
-        <p>Transfert direct de vos marchandises d'un véhicule à un autre, avec un stockage intermédiaire minimal. Notre dépôt centralisé trie et consolide les envois par destination — moins d'attente, moins de coûts.</p>
-        <ul>
-          <li>Consolidation des envois par destination</li>
-          <li>Réduction des délais de transit</li>
-          <li>Optimisation des coûts d'entrepôt</li>
-          <li>Site accessible à tous types de véhicules</li>
-        </ul>
       </div>
 
       <!-- Préparation de commandes -->
       <div class="logi-card reveal d3">
-        <div class="logi-icon">
-          <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        <div class="logi-photo" style="background-image:url('assets/img/preparation-commande.jpg')"></div>
+        <div class="logi-body">
+          <div class="logi-icon">
+            <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          </div>
+          <h3>Préparation de commandes</h3>
+          <p>De la réception à l'expédition, nous gérons l'ensemble du cycle : conditionnement, palettisation, étiquetage et envoi. Vos commandes partent dans les délais, préparées avec soin.</p>
+          <ul>
+            <li>Réception et contrôle des marchandises</li>
+            <li>Conditionnement &amp; palettisation</li>
+            <li>Gestion des stocks et des inventaires</li>
+            <li>Expédition sous 24–48h</li>
+          </ul>
         </div>
-        <h3>Préparation de commandes</h3>
-        <p>De la réception à l'expédition, nous gérons l'ensemble du cycle : conditionnement, palettisation, étiquetage et envoi. Vos commandes partent dans les délais, préparées avec soin.</p>
-        <ul>
-          <li>Réception et contrôle des marchandises</li>
-          <li>Conditionnement &amp; palettisation</li>
-          <li>Gestion des stocks et des inventaires</li>
-          <li>Expédition sous 24–48h</li>
-        </ul>
       </div>
 
     </div>
