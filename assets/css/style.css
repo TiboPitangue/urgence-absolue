@@ -520,6 +520,8 @@ footer{background:var(--ink);color:rgba(255,255,255,.75);padding:56px 0 28px}
   /* Boutons : autoriser le retour à la ligne sur petits écrans (évite tout débordement) */
   .btn{white-space:normal;max-width:100%}
   .nav-cta .btn{white-space:nowrap}
+  /* Badge tag : décale le contenu pour éviter le chevauchement sur mobile */
+  .svc-card .card-body{padding-top:58px}
 }
 @media(max-width:480px){
   .grid-services{grid-template-columns:1fr}
