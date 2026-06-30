@@ -116,27 +116,29 @@
     }
 
     /* Section avantages — stagger stack */
-    .stagger-list{display:flex;flex-direction:column;gap:0;margin-top:40px;padding-bottom:40px}
+    .stagger-list{display:flex;flex-direction:column;gap:0;margin-top:40px}
     .stagger-card{
       position:sticky;
-      top:100px;
+      top:120px;
       background:#fff;
       border:1px solid var(--line);
       border-radius:16px;
       padding:28px 32px;
       display:flex;align-items:flex-start;gap:20px;
       box-shadow:0 4px 24px -4px rgba(0,0,0,.07);
-      margin-bottom:16px;
-      transition:transform .3s ease,box-shadow .3s ease;
+      margin-bottom:200px;
+      transition:transform .3s ease,box-shadow .3s ease,opacity .3s ease;
       will-change:transform;
+      z-index:1;
     }
-    .stagger-card:nth-child(1){top:100px}
-    .stagger-card:nth-child(2){top:116px}
-    .stagger-card:nth-child(3){top:132px}
-    .stagger-card:nth-child(4){top:148px}
-    .stagger-card:nth-child(5){top:164px}
-    .stagger-card:nth-child(6){top:180px}
-    .stagger-card.is-stacked{transform:scale(.97) translateY(-6px);box-shadow:0 2px 8px -2px rgba(0,0,0,.06)}
+    .stagger-card:last-child{margin-bottom:40px}
+    .stagger-card:nth-child(1){top:120px;z-index:1}
+    .stagger-card:nth-child(2){top:132px;z-index:2}
+    .stagger-card:nth-child(3){top:144px;z-index:3}
+    .stagger-card:nth-child(4){top:156px;z-index:4}
+    .stagger-card:nth-child(5){top:168px;z-index:5}
+    .stagger-card:nth-child(6){top:180px;z-index:6}
+    .stagger-card.is-stacked{transform:scale(.96);box-shadow:0 2px 8px -2px rgba(0,0,0,.05);opacity:.85}
     .stagger-card .av-icon{
       width:48px;height:48px;border-radius:12px;flex-shrink:0;
       background:rgba(193,55,42,.08);
@@ -146,7 +148,7 @@
     .stagger-card h4{font-family:'Sora',sans-serif;font-size:1.05rem;font-weight:700;color:var(--ink);margin:0 0 6px}
     .stagger-card p{font-size:.92rem;color:var(--muted);margin:0;line-height:1.6}
     @media(max-width:640px){
-      .stagger-card{padding:20px;gap:14px}
+      .stagger-card{padding:20px;gap:14px;margin-bottom:120px}
       .stagger-card:nth-child(n){top:80px}
     }
 
@@ -422,10 +424,10 @@
     cards.forEach(function(card, i){
       if(i === cards.length - 1){ card.classList.remove('is-stacked'); return; }
       var next = cards[i + 1];
-      var cardTop = card.getBoundingClientRect().top;
       var nextTop = next.getBoundingClientRect().top;
-      // when next card is within 80px of this card's top, this card is stacked
-      if(nextTop - cardTop < 80){
+      var stickyTop = 120 + (i + 1) * 12; // matches CSS top values
+      // card becomes stacked once the next card reaches its sticky position
+      if(nextTop <= stickyTop + 4){
         card.classList.add('is-stacked');
       } else {
         card.classList.remove('is-stacked');
