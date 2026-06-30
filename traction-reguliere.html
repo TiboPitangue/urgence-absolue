@@ -151,6 +151,7 @@
   .perk-card .ic svg{width:27px;height:27px;stroke:#fff;stroke-width:2;fill:none}
   .perk-card h4{font-family:'Sora',sans-serif;font-size:1.25rem;font-weight:700;color:var(--ink);margin:6px 0 0}
   .perk-card p{color:var(--muted);font-size:.97rem;line-height:1.65;margin:0}
+  .perk-card:not(.is-active){cursor:pointer}
   .perk-card.is-active{box-shadow:0 26px 64px -22px rgba(193,55,42,.45);border-color:rgba(193,55,42,.4)}
   .perk-card.is-active .ic{background:var(--brand)}
   .perks-controls{display:flex;justify-content:center;align-items:center;gap:22px;margin-top:30px}
@@ -230,7 +231,7 @@
         'translate(-50%,-50%) translateX(' + (off * SPACING) + 'px) translateZ(' + (-a * DEPTH) + 'px) rotateY(' + (off * -ANGLE) + 'deg) scale(' + sc + ')';
       card.style.opacity = op;
       card.style.zIndex = String(100 - Math.round(a * 10));
-      card.style.pointerEvents = a < 0.5 ? 'auto' : 'none';
+      card.style.pointerEvents = a < 1.6 ? 'auto' : 'none'; // carte centrale + voisines cliquables
       var active = Math.round(pos) === i;
       card.classList.toggle('is-active', active);
       if(dots[i]) dots[i].classList.toggle('is-active', active);
