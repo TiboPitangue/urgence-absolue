@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Démo cartes logistique — comparatif</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <style>
+    .demo-note{max-width:760px;margin:0 auto 8px;text-align:center}
+    .demo-tag{display:inline-block;font-family:'Sora',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--brand);background:rgba(193,55,42,.08);padding:6px 14px;border-radius:999px;margin-bottom:14px}
+    .demo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(18px,3vw,32px);margin-top:40px}
+    @media(max-width:860px){ .demo-grid{grid-template-columns:1fr} }
+
+    /* ---- liste à puces commune ---- */
+    .demo-grid h3{font-family:'Sora',sans-serif;font-size:1.15rem;font-weight:700;margin:0}
+    .demo-grid ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
+    .demo-grid ul li{display:flex;align-items:flex-start;gap:9px;font-size:.92rem;line-height:1.5}
+    .demo-grid ul li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--brand);flex-shrink:0;margin-top:.45em}
+
+    /* ================= OPTION 1 — bandeau photo en haut ================= */
+    .opt1-card{
+      background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;
+      display:flex;flex-direction:column;
+      box-shadow:0 6px 30px -12px rgba(0,0,0,.12);
+      transition:transform .3s ease,box-shadow .3s ease;
+    }
+    .opt1-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px -16px rgba(0,0,0,.22)}
+    .opt1-card .photo{height:158px;background-size:cover;background-position:center;position:relative}
+    .opt1-card .photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.25))}
+    .opt1-card .body{padding:30px 28px 32px;display:flex;flex-direction:column;gap:14px;position:relative}
+    .opt1-card .ic{
+      width:54px;height:54px;border-radius:14px;background:var(--brand);
+      display:grid;place-items:center;position:absolute;top:-27px;left:28px;
+      box-shadow:0 8px 20px -6px rgba(193,55,42,.5);
+    }
+    .opt1-card .ic svg{width:26px;height:26px;stroke:#fff;stroke-width:2;fill:none}
+    .opt1-card h3{margin-top:14px;color:var(--ink)}
+    .opt1-card p{color:var(--muted);font-size:.95rem;line-height:1.65;margin:0}
+    .opt1-card ul li{color:var(--muted)}
+
+    /* ================= OPTION 2 — photo révélée au survol ================= */
+    .opt2-card{
+      position:relative;background:#fff;border:1px solid var(--line);border-radius:18px;
+      padding:34px 30px;overflow:hidden;cursor:default;
+      display:flex;flex-direction:column;gap:14px;
+      transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease;
+      box-shadow:0 6px 30px -12px rgba(0,0,0,.12);
+    }
+    .opt2-card .bg{
+      position:absolute;inset:0;background-size:cover;background-position:center;
+      opacity:0;transition:opacity .5s ease;z-index:0;
+    }
+    .opt2-card .bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,14,13,.78),rgba(20,14,13,.92))}
+    .opt2-card > *{position:relative;z-index:1}
+    .opt2-card .ic{
+      width:54px;height:54px;border-radius:14px;background:rgba(193,55,42,.08);
+      display:grid;place-items:center;transition:background .4s ease;
+    }
+    .opt2-card .ic svg{width:26px;height:26px;stroke:var(--brand);stroke-width:2;fill:none;transition:stroke .4s ease}
+    .opt2-card h3{color:var(--ink);transition:color .4s ease}
+    .opt2-card p{color:var(--muted);font-size:.95rem;line-height:1.65;margin:0;transition:color .4s ease}
+    .opt2-card ul li{color:var(--muted);transition:color .4s ease}
+    /* état survolé */
+    .opt2-card:hover{transform:translateY(-4px);box-shadow:0 18px 44px -18px rgba(0,0,0,.4);border-color:transparent}
+    .opt2-card:hover .bg{opacity:1}
+    .opt2-card:hover .ic{background:rgba(255,255,255,.16)}
+    .opt2-card:hover .ic svg{stroke:#fff}
+    .opt2-card:hover h3,.opt2-card:hover p{color:#fff}
+    .opt2-card:hover ul li{color:rgba(255,255,255,.88)}
+  </style>
+</head>
+<body>
+
+<section class="pad" style="padding-top:60px">
+  <div class="wrap">
+    <div class="demo-note">
+      <h1 style="font-family:'Sora',sans-serif;font-size:1.9rem;margin:0 0 10px">Comparatif — images dans les cartes</h1>
+      <p class="txt-muted" style="margin:0">Deux pistes, à comparer en conditions réelles. Survolez les cartes pour voir les effets.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= OPTION 1 ================= -->
+<section class="pad" style="padding-top:10px">
+  <div class="wrap">
+    <div style="text-align:center">
+      <span class="demo-tag">Option 1 · Bandeau photo en haut</span>
+      <p class="txt-muted" style="max-width:640px;margin:0 auto">La photo habille le haut de la carte, le texte reste sur fond blanc. Lisibilité maximale, visuel garanti.</p>
+    </div>
+    <div class="demo-grid">
+
+      <div class="opt1-card">
+        <div class="photo" style="background-image:url('assets/img/entrepot-interieur-1.jpg')"></div>
+        <div class="body">
+          <div class="ic"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
+          <h3>Stockage courte &amp; longue durée</h3>
+          <p>Entreposage au sol ou sur racks, adapté à tous les formats de marchandises. Suivi par codes-barres pour une gestion précise de votre stock.</p>
+          <ul>
+            <li>Stockage en rack pour petits articles</li>
+            <li>Rayonnage pour produits de taille moyenne</li>
+            <li>Stockage palette pour marchandises lourdes</li>
+            <li>Option stockage sécurisé pour marchandises de valeur</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="opt1-card">
+        <div class="photo" style="background-image:url('assets/img/depot-chargement.jpg')"></div>
+        <div class="body">
+          <div class="ic"><svg viewBox="0 0 24 24"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></div>
+          <h3>Cross-docking</h3>
+          <p>Transfert direct de vos marchandises d'un véhicule à un autre, avec un stockage intermédiaire minimal — moins d'attente, moins de coûts.</p>
+          <ul>
+            <li>Consolidation des envois par destination</li>
+            <li>Réduction des délais de transit</li>
+            <li>Optimisation des coûts d'entrepôt</li>
+            <li>Site accessible à tous types de véhicules</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="opt1-card">
+        <div class="photo" style="background-image:url('assets/img/exploitation-suivi.jpg')"></div>
+        <div class="body">
+          <div class="ic"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+          <h3>Préparation de commandes</h3>
+          <p>De la réception à l'expédition, nous gérons l'ensemble du cycle : conditionnement, palettisation, étiquetage et envoi.</p>
+          <ul>
+            <li>Réception et contrôle des marchandises</li>
+            <li>Conditionnement &amp; palettisation</li>
+            <li>Gestion des stocks et des inventaires</li>
+            <li>Expédition sous 24–48h</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= OPTION 2 ================= -->
+<section class="pad bg-paper">
+  <div class="wrap">
+    <div style="text-align:center">
+      <span class="demo-tag">Option 2 · Photo révélée au survol</span>
+      <p class="txt-muted" style="max-width:640px;margin:0 auto">Carte épurée par défaut. Au survol, la photo apparaît en fondu avec un voile sombre et le texte passe en blanc. (Sur mobile : reste en version claire.)</p>
+    </div>
+    <div class="demo-grid">
+
+      <div class="opt2-card">
+        <div class="bg" style="background-image:url('assets/img/entrepot-interieur-1.jpg')"></div>
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
+        <h3>Stockage courte &amp; longue durée</h3>
+        <p>Entreposage au sol ou sur racks, adapté à tous les formats de marchandises. Suivi par codes-barres pour une gestion précise de votre stock.</p>
+        <ul>
+          <li>Stockage en rack pour petits articles</li>
+          <li>Rayonnage pour produits de taille moyenne</li>
+          <li>Stockage palette pour marchandises lourdes</li>
+          <li>Option stockage sécurisé pour marchandises de valeur</li>
+        </ul>
+      </div>
+
+      <div class="opt2-card">
+        <div class="bg" style="background-image:url('assets/img/depot-chargement.jpg')"></div>
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></div>
+        <h3>Cross-docking</h3>
+        <p>Transfert direct de vos marchandises d'un véhicule à un autre, avec un stockage intermédiaire minimal — moins d'attente, moins de coûts.</p>
+        <ul>
+          <li>Consolidation des envois par destination</li>
+          <li>Réduction des délais de transit</li>
+          <li>Optimisation des coûts d'entrepôt</li>
+          <li>Site accessible à tous types de véhicules</li>
+        </ul>
+      </div>
+
+      <div class="opt2-card">
+        <div class="bg" style="background-image:url('assets/img/exploitation-suivi.jpg')"></div>
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+        <h3>Préparation de commandes</h3>
+        <p>De la réception à l'expédition, nous gérons l'ensemble du cycle : conditionnement, palettisation, étiquetage et envoi.</p>
+        <ul>
+          <li>Réception et contrôle des marchandises</li>
+          <li>Conditionnement &amp; palettisation</li>
+          <li>Gestion des stocks et des inventaires</li>
+          <li>Expédition sous 24–48h</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
