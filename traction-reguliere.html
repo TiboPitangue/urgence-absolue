@@ -256,37 +256,55 @@
   document.getElementById('perksPrev').onclick = function(){ goTo(Math.round(target) - 1); };
   document.getElementById('perksNext').onclick = function(){ goTo(Math.round(target) + 1); };
 
-  // drag (souris + tactile via pointer events)
-  function down(e){
+  // --- coeur du geste (partagé souris + tactile) ---
+  function gestureDown(x){
     dragging = true; moved = false;
-    lastX = e.clientX;
-    vel = 0;
+    lastX = x; vel = 0;
     if(raf){ cancelAnimationFrame(raf); raf = null; }
     carousel.classList.add('dragging');
-    carousel.setPointerCapture && carousel.setPointerCapture(e.pointerId);
   }
-  function move(e){
+  function gestureMove(x){
     if(!dragging) return;
-    var dx = e.clientX - lastX;
-    lastX = e.clientX;
+    var dx = x - lastX;
+    lastX = x;
     if(Math.abs(dx) > 2) moved = true;
     var dpos = -dx / dragUnit();
     pos = Math.max(-0.35, Math.min(n - 1 + 0.35, pos + dpos));
     vel = dpos;
     render();
   }
-  function up(){
+  function gestureUp(){
     if(!dragging) return;
     dragging = false;
     carousel.classList.remove('dragging');
     target = Math.max(0, Math.min(n - 1, Math.round(pos + vel * 6)));
     start();
   }
-  carousel.addEventListener('pointerdown', down);
-  carousel.addEventListener('pointermove', move);
-  carousel.addEventListener('pointerup', up);
-  carousel.addEventListener('pointercancel', up);
-  carousel.addEventListener('pointerleave', up);
+
+  // souris (desktop)
+  carousel.addEventListener('mousedown', function(e){ e.preventDefault(); gestureDown(e.clientX); });
+  window.addEventListener('mousemove', function(e){ gestureMove(e.clientX); });
+  window.addEventListener('mouseup', gestureUp);
+
+  // tactile (mobile) — on distingue swipe horizontal (carrousel) et scroll vertical (page)
+  var startX = 0, startY = 0, axis = null;
+  carousel.addEventListener('touchstart', function(e){
+    var t = e.touches[0];
+    startX = t.clientX; startY = t.clientY; axis = null;
+    gestureDown(t.clientX);
+  }, {passive: true});
+  carousel.addEventListener('touchmove', function(e){
+    if(!dragging) return;
+    var t = e.touches[0];
+    if(axis === null){
+      var adx = Math.abs(t.clientX - startX), ady = Math.abs(t.clientY - startY);
+      if(adx > 6 || ady > 6){ axis = adx > ady ? 'h' : 'v'; }
+    }
+    if(axis === 'v'){ dragging = false; carousel.classList.remove('dragging'); return; } // laisse scroller la page
+    if(axis === 'h'){ gestureMove(t.clientX); e.preventDefault(); }                       // swipe carrousel
+  }, {passive: false});
+  carousel.addEventListener('touchend', gestureUp);
+  carousel.addEventListener('touchcancel', gestureUp);
 
   // clic sur une carte latérale = la centrer
   cards.forEach(function(card, i){
