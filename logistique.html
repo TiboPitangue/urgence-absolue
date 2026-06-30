@@ -115,28 +115,40 @@
       color:var(--muted);
     }
 
-    /* Section avantages */
-    .avantages-grid{
-      display:grid;
-      grid-template-columns:repeat(2,1fr);
-      gap:16px;
-      margin-top:40px;
+    /* Section avantages — stagger stack */
+    .stagger-list{display:flex;flex-direction:column;gap:0;margin-top:40px;padding-bottom:40px}
+    .stagger-card{
+      position:sticky;
+      top:100px;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:28px 32px;
+      display:flex;align-items:flex-start;gap:20px;
+      box-shadow:0 4px 24px -4px rgba(0,0,0,.07);
+      margin-bottom:16px;
+      transition:transform .3s ease,box-shadow .3s ease;
+      will-change:transform;
     }
-    @media(max-width:640px){ .avantages-grid{grid-template-columns:1fr} }
-
-    .avantage-item{
-      display:flex;align-items:flex-start;gap:14px;
-      background:#fff;border:1px solid var(--line);
-      border-radius:12px;padding:20px;
-    }
-    .avantage-item .av-icon{
-      width:40px;height:40px;border-radius:10px;
+    .stagger-card:nth-child(1){top:100px}
+    .stagger-card:nth-child(2){top:116px}
+    .stagger-card:nth-child(3){top:132px}
+    .stagger-card:nth-child(4){top:148px}
+    .stagger-card:nth-child(5){top:164px}
+    .stagger-card:nth-child(6){top:180px}
+    .stagger-card.is-stacked{transform:scale(.97) translateY(-6px);box-shadow:0 2px 8px -2px rgba(0,0,0,.06)}
+    .stagger-card .av-icon{
+      width:48px;height:48px;border-radius:12px;flex-shrink:0;
       background:rgba(193,55,42,.08);
-      display:grid;place-items:center;flex-shrink:0;
+      display:grid;place-items:center;
     }
-    .avantage-item .av-icon svg{width:20px;height:20px;stroke:var(--brand);stroke-width:2;fill:none}
-    .avantage-item h4{font-family:'Sora',sans-serif;font-size:.95rem;font-weight:700;color:var(--ink);margin:0 0 4px}
-    .avantage-item p{font-size:.87rem;color:var(--muted);margin:0;line-height:1.5}
+    .stagger-card .av-icon svg{width:22px;height:22px;stroke:var(--brand);stroke-width:2;fill:none}
+    .stagger-card h4{font-family:'Sora',sans-serif;font-size:1.05rem;font-weight:700;color:var(--ink);margin:0 0 6px}
+    .stagger-card p{font-size:.92rem;color:var(--muted);margin:0;line-height:1.6}
+    @media(max-width:640px){
+      .stagger-card{padding:20px;gap:14px}
+      .stagger-card:nth-child(n){top:80px}
+    }
 
     /* Bloc adresse */
     .logi-adresse{
@@ -325,60 +337,30 @@
       <h2 id="avantages-title">Les avantages de votre service logistique</h2>
     </div>
 
-    <div class="avantages-grid">
-      <div class="avantage-item reveal d1">
-        <div class="av-icon">
-          <svg viewBox="0 0 24 24"><path d="M12 2L3 7v6c0 5 3.8 8.5 9 9 5.2-.5 9-4 9-9V7l-9-5z"/><path d="M9 12l2 2 4-4"/></svg>
-        </div>
-        <div>
-          <h4>Sécurité renforcée</h4>
-          <p>Caméras de surveillance, alarmes et détecteurs de mouvement — votre stock est protégé en permanence.</p>
-        </div>
+    <div class="stagger-list" id="staggerList">
+      <div class="stagger-card">
+        <div class="av-icon"><svg viewBox="0 0 24 24"><path d="M12 2L3 7v6c0 5 3.8 8.5 9 9 5.2-.5 9-4 9-9V7l-9-5z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <div><h4>Sécurité renforcée</h4><p>Caméras de surveillance, alarmes et détecteurs de mouvement — votre stock est protégé en permanence.</p></div>
       </div>
-      <div class="avantage-item reveal d2">
-        <div class="av-icon">
-          <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-        </div>
-        <div>
-          <h4>Réduction des coûts</h4>
-          <p>Stockage centralisé et cross-docking optimisé pour rationaliser vos dépenses logistiques.</p>
-        </div>
+      <div class="stagger-card">
+        <div class="av-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <div><h4>Réduction des coûts</h4><p>Stockage centralisé et cross-docking optimisé pour rationaliser vos dépenses logistiques.</p></div>
       </div>
-      <div class="avantage-item reveal d3">
-        <div class="av-icon">
-          <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-        </div>
-        <div>
-          <h4>Matériel récent</h4>
-          <p>Chariots élévateurs, transpalettes et gerbeurs récents pour une gestion efficace de vos stocks.</p>
-        </div>
+      <div class="stagger-card">
+        <div class="av-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+        <div><h4>Matériel récent</h4><p>Chariots élévateurs, transpalettes et gerbeurs récents pour une gestion efficace de vos stocks.</p></div>
       </div>
-      <div class="avantage-item reveal d4">
-        <div class="av-icon">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        </div>
-        <div>
-          <h4>Flexibilité &amp; réactivité</h4>
-          <p>Ajustement rapide des stocks selon vos volumes, pour vous concentrer sur votre cœur de métier.</p>
-        </div>
+      <div class="stagger-card">
+        <div class="av-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <div><h4>Flexibilité &amp; réactivité</h4><p>Ajustement rapide des stocks selon vos volumes, pour vous concentrer sur votre cœur de métier.</p></div>
       </div>
-      <div class="avantage-item reveal d1">
-        <div class="av-icon">
-          <svg viewBox="0 0 24 24"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-        </div>
-        <div>
-          <h4>Du dépôt à la livraison</h4>
-          <p>Combiné à notre flotte de transport, nous couvrons toute la chaîne — sans rupture ni intermédiaire.</p>
-        </div>
+      <div class="stagger-card">
+        <div class="av-icon"><svg viewBox="0 0 24 24"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+        <div><h4>Du dépôt à la livraison</h4><p>Combiné à notre flotte de transport, nous couvrons toute la chaîne — sans rupture ni intermédiaire.</p></div>
       </div>
-      <div class="avantage-item reveal d2">
-        <div class="av-icon">
-          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        </div>
-        <div>
-          <h4>Solutions sur mesure</h4>
-          <p>Du colis à la palette, nous adaptons notre offre à vos besoins — quelle que soit votre activité.</p>
-        </div>
+      <div class="stagger-card">
+        <div class="av-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <div><h4>Solutions sur mesure</h4><p>Du colis à la palette, nous adaptons notre offre à vos besoins — quelle que soit votre activité.</p></div>
       </div>
     </div>
 
@@ -432,5 +414,27 @@
 </footer>
 
 <script src="assets/js/main.js" defer></script>
+<script>
+(function(){
+  var cards = Array.from(document.querySelectorAll('#staggerList .stagger-card'));
+  if(!cards.length) return;
+  function update(){
+    cards.forEach(function(card, i){
+      if(i === cards.length - 1){ card.classList.remove('is-stacked'); return; }
+      var next = cards[i + 1];
+      var cardTop = card.getBoundingClientRect().top;
+      var nextTop = next.getBoundingClientRect().top;
+      // when next card is within 80px of this card's top, this card is stacked
+      if(nextTop - cardTop < 80){
+        card.classList.add('is-stacked');
+      } else {
+        card.classList.remove('is-stacked');
+      }
+    });
+  }
+  window.addEventListener('scroll', update, {passive: true});
+  update();
+})();
+</script>
 </body>
 </html>
