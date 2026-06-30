@@ -258,9 +258,11 @@
   document.getElementById('perksNext').onclick = function(){ goTo(Math.round(target) + 1); };
 
   // --- coeur du geste (partagé souris + tactile) ---
-  function gestureDown(x){
+  var downX = 0, pressedCard = null;
+  function gestureDown(x, tgt){
     dragging = true; moved = false;
-    lastX = x; vel = 0;
+    downX = x; lastX = x; vel = 0;
+    pressedCard = tgt ? tgt.closest('.perk-card') : null;
     if(raf){ cancelAnimationFrame(raf); raf = null; }
     carousel.classList.add('dragging');
   }
@@ -268,7 +270,7 @@
     if(!dragging) return;
     var dx = x - lastX;
     lastX = x;
-    if(Math.abs(dx) > 2) moved = true;
+    if(Math.abs(x - downX) > 6) moved = true;
     var dpos = -dx / dragUnit();
     pos = Math.max(-0.35, Math.min(n - 1 + 0.35, pos + dpos));
     vel = dpos;
@@ -278,12 +280,19 @@
     if(!dragging) return;
     dragging = false;
     carousel.classList.remove('dragging');
+    // tap / clic sans glissement : on centre la carte pressée
+    if(!moved && pressedCard){
+      var idx = cards.indexOf(pressedCard);
+      pressedCard = null;
+      if(idx >= 0){ goTo(idx); return; }
+    }
+    pressedCard = null;
     target = Math.max(0, Math.min(n - 1, Math.round(pos + vel * 6)));
     start();
   }
 
   // souris (desktop)
-  carousel.addEventListener('mousedown', function(e){ e.preventDefault(); gestureDown(e.clientX); });
+  carousel.addEventListener('mousedown', function(e){ e.preventDefault(); gestureDown(e.clientX, e.target); });
   window.addEventListener('mousemove', function(e){ gestureMove(e.clientX); });
   window.addEventListener('mouseup', gestureUp);
 
@@ -292,7 +301,7 @@
   carousel.addEventListener('touchstart', function(e){
     var t = e.touches[0];
     startX = t.clientX; startY = t.clientY; axis = null;
-    gestureDown(t.clientX);
+    gestureDown(t.clientX, e.target);
   }, {passive: true});
   carousel.addEventListener('touchmove', function(e){
     if(!dragging) return;
@@ -301,16 +310,11 @@
       var adx = Math.abs(t.clientX - startX), ady = Math.abs(t.clientY - startY);
       if(adx > 6 || ady > 6){ axis = adx > ady ? 'h' : 'v'; }
     }
-    if(axis === 'v'){ dragging = false; carousel.classList.remove('dragging'); return; } // laisse scroller la page
-    if(axis === 'h'){ gestureMove(t.clientX); e.preventDefault(); }                       // swipe carrousel
+    if(axis === 'v'){ dragging = false; pressedCard = null; carousel.classList.remove('dragging'); return; } // laisse scroller la page
+    if(axis === 'h'){ gestureMove(t.clientX); e.preventDefault(); }                                          // swipe carrousel
   }, {passive: false});
   carousel.addEventListener('touchend', gestureUp);
   carousel.addEventListener('touchcancel', gestureUp);
-
-  // clic sur une carte latérale = la centrer
-  cards.forEach(function(card, i){
-    card.addEventListener('click', function(){ if(!moved) goTo(i); });
-  });
 
   window.addEventListener('resize', render);
   render();
