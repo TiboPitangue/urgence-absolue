@@ -133,31 +133,170 @@
 </section>
 
 <!-- ================= ATOUTS ================= -->
+<style>
+  .perks-carousel{position:relative;height:460px;margin-top:48px;perspective:1500px;overflow:hidden;cursor:grab;touch-action:pan-y}
+  .perks-carousel.dragging{cursor:grabbing}
+  .perks-stage{position:absolute;inset:0;transform-style:preserve-3d}
+  .perk-card{
+    position:absolute;left:50%;top:50%;
+    width:min(360px,82vw);box-sizing:border-box;
+    padding:38px 34px;
+    background:#fff;border:1px solid var(--line);border-radius:22px;
+    box-shadow:0 12px 44px -18px rgba(0,0,0,.2);
+    display:flex;flex-direction:column;gap:16px;
+    will-change:transform,opacity;user-select:none;
+    transition:box-shadow .3s ease,border-color .3s ease;
+  }
+  .perk-card .ic{width:58px;height:58px;border-radius:15px;background:var(--ink);display:grid;place-items:center;transition:background .3s ease}
+  .perk-card .ic svg{width:27px;height:27px;stroke:#fff;stroke-width:2;fill:none}
+  .perk-card h4{font-family:'Sora',sans-serif;font-size:1.25rem;font-weight:700;color:var(--ink);margin:6px 0 0}
+  .perk-card p{color:var(--muted);font-size:.97rem;line-height:1.65;margin:0}
+  .perk-card.is-active{box-shadow:0 26px 64px -22px rgba(193,55,42,.45);border-color:rgba(193,55,42,.4)}
+  .perk-card.is-active .ic{background:var(--brand)}
+  .perks-controls{display:flex;justify-content:center;align-items:center;gap:22px;margin-top:30px}
+  .perks-nav{width:54px;height:54px;border-radius:14px;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;display:grid;place-items:center;transition:background .2s,color .2s,border-color .2s}
+  .perks-nav svg{width:22px;height:22px;stroke:currentColor;stroke-width:2.2;fill:none}
+  .perks-nav:hover{background:var(--brand);color:#fff;border-color:var(--brand)}
+  .perks-dots{display:flex;gap:9px}
+  .perks-dots button{width:9px;height:9px;border-radius:50%;border:none;background:var(--line);cursor:pointer;padding:0;transition:background .25s,width .25s,border-radius .25s}
+  .perks-dots button.is-active{background:var(--brand);width:26px;border-radius:5px}
+  @media(max-width:640px){.perks-carousel{height:420px}.perk-card{padding:30px 26px}}
+</style>
 <section class="pad bg-paper" aria-labelledby="perks-title">
   <div class="wrap">
     <div class="section-head reveal">
       <span class="eyebrow">Vos bénéfices</span>
       <h2 id="perks-title">Pourquoi externaliser vos lignes régulières</h2>
     </div>
-    <div class="perks">
-      <div class="perk reveal d1">
-        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
-        <h4>Fiabilité horaire</h4>
-        <p>Des départs et arrivées planifiés sur lesquels vos équipes et vos clients peuvent compter.</p>
+
+    <div class="perks-carousel" id="perksCarousel">
+      <div class="perks-stage" id="perksStage">
+        <div class="perk-card">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+          <h4>Fiabilité horaire</h4>
+          <p>Des départs et arrivées planifiés sur lesquels vos équipes et vos clients peuvent compter.</p>
+        </div>
+        <div class="perk-card">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+          <h4>Coûts maîtrisés</h4>
+          <p>Une ligne calibrée et récurrente, c'est un budget transport lissé et sans surprise.</p>
+        </div>
+        <div class="perk-card">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/></svg></div>
+          <h4>Suivi en temps réel</h4>
+          <p>Véhicules géolocalisés et exploitation joignable : vous gardez la visibilité sur chaque rotation.</p>
+        </div>
       </div>
-      <div class="perk reveal d2">
-        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
-        <h4>Coûts maîtrisés</h4>
-        <p>Une ligne calibrée et récurrente, c'est un budget transport lissé et sans surprise.</p>
-      </div>
-      <div class="perk reveal d3">
-        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/></svg></div>
-        <h4>Suivi en temps réel</h4>
-        <p>Véhicules géolocalisés et exploitation joignable : vous gardez la visibilité sur chaque rotation.</p>
-      </div>
+    </div>
+
+    <div class="perks-controls">
+      <button class="perks-nav" id="perksPrev" aria-label="Bénéfice précédent"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div class="perks-dots" id="perksDots" role="tablist" aria-label="Sélection du bénéfice"></div>
+      <button class="perks-nav" id="perksNext" aria-label="Bénéfice suivant"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></button>
     </div>
   </div>
 </section>
+<script>
+(function(){
+  var carousel = document.getElementById('perksCarousel');
+  var stage = document.getElementById('perksStage');
+  if(!carousel || !stage) return;
+  var cards = Array.prototype.slice.call(stage.querySelectorAll('.perk-card'));
+  var n = cards.length;
+  if(!n) return;
+
+  var SPACING = 300, ANGLE = 44, DEPTH = 180, SCALE = 0.16, FADE = 0.5;
+  var pos = 1, target = 1, vel = 0;
+  var dragging = false, lastX = 0, moved = false, raf = null;
+
+  // dots
+  var dotsWrap = document.getElementById('perksDots');
+  var dots = cards.map(function(_, i){
+    var b = document.createElement('button');
+    b.setAttribute('aria-label', 'Bénéfice ' + (i + 1));
+    b.onclick = function(){ goTo(i); };
+    dotsWrap.appendChild(b);
+    return b;
+  });
+
+  function dragUnit(){ return Math.min(window.innerWidth * 0.6, 340); }
+
+  function render(){
+    cards.forEach(function(card, i){
+      var off = i - pos, a = Math.abs(off);
+      var sc = Math.max(0, 1 - a * SCALE);
+      var op = Math.max(0, 1 - a * FADE);
+      card.style.transform =
+        'translate(-50%,-50%) translateX(' + (off * SPACING) + 'px) translateZ(' + (-a * DEPTH) + 'px) rotateY(' + (off * -ANGLE) + 'deg) scale(' + sc + ')';
+      card.style.opacity = op;
+      card.style.zIndex = String(100 - Math.round(a * 10));
+      card.style.pointerEvents = a < 0.5 ? 'auto' : 'none';
+      var active = Math.round(pos) === i;
+      card.classList.toggle('is-active', active);
+      if(dots[i]) dots[i].classList.toggle('is-active', active);
+    });
+  }
+
+  function animate(){
+    vel += (target - pos) * 0.12;
+    vel *= 0.80;
+    pos += vel;
+    pos = Math.max(0, Math.min(n - 1, pos));
+    render();
+    if(Math.abs(vel) > 0.0006 || Math.abs(target - pos) > 0.0006){
+      raf = requestAnimationFrame(animate);
+    } else {
+      pos = target; vel = 0; render(); raf = null;
+    }
+  }
+  function start(){ if(!raf) raf = requestAnimationFrame(animate); }
+
+  function goTo(i){ target = Math.max(0, Math.min(n - 1, i)); start(); }
+
+  document.getElementById('perksPrev').onclick = function(){ goTo(Math.round(target) - 1); };
+  document.getElementById('perksNext').onclick = function(){ goTo(Math.round(target) + 1); };
+
+  // drag (souris + tactile via pointer events)
+  function down(e){
+    dragging = true; moved = false;
+    lastX = e.clientX;
+    vel = 0;
+    if(raf){ cancelAnimationFrame(raf); raf = null; }
+    carousel.classList.add('dragging');
+    carousel.setPointerCapture && carousel.setPointerCapture(e.pointerId);
+  }
+  function move(e){
+    if(!dragging) return;
+    var dx = e.clientX - lastX;
+    lastX = e.clientX;
+    if(Math.abs(dx) > 2) moved = true;
+    var dpos = -dx / dragUnit();
+    pos = Math.max(-0.35, Math.min(n - 1 + 0.35, pos + dpos));
+    vel = dpos;
+    render();
+  }
+  function up(){
+    if(!dragging) return;
+    dragging = false;
+    carousel.classList.remove('dragging');
+    target = Math.max(0, Math.min(n - 1, Math.round(pos + vel * 6)));
+    start();
+  }
+  carousel.addEventListener('pointerdown', down);
+  carousel.addEventListener('pointermove', move);
+  carousel.addEventListener('pointerup', up);
+  carousel.addEventListener('pointercancel', up);
+  carousel.addEventListener('pointerleave', up);
+
+  // clic sur une carte latérale = la centrer
+  cards.forEach(function(card, i){
+    card.addEventListener('click', function(){ if(!moved) goTo(i); });
+  });
+
+  window.addEventListener('resize', render);
+  render();
+})();
+</script>
 
 <!-- ================= CTA BAND ================= -->
 <section class="pad-sm">
