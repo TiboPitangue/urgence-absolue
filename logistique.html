@@ -115,41 +115,42 @@
       color:var(--muted);
     }
 
-    /* Section avantages — stagger stack */
-    .stagger-list{display:flex;flex-direction:column;gap:0;margin-top:40px}
+    /* Section avantages — carousel en éventail */
+    .stagger-carousel{position:relative;width:100%;height:440px;margin-top:24px;overflow:hidden}
     .stagger-card{
-      position:sticky;
-      top:120px;
-      background:#fff;
-      border:1px solid var(--line);
-      border-radius:16px;
-      padding:28px 32px;
-      display:flex;align-items:flex-start;gap:20px;
-      box-shadow:0 4px 24px -4px rgba(0,0,0,.07);
-      margin-bottom:200px;
-      transition:transform .3s ease,box-shadow .3s ease,opacity .3s ease;
-      will-change:transform;
-      z-index:1;
+      position:absolute;left:50%;top:50%;
+      width:340px;height:340px;box-sizing:border-box;
+      padding:30px 30px 26px;
+      background:#fff;border:1px solid var(--line);color:var(--ink);
+      cursor:pointer;display:flex;flex-direction:column;
+      clip-path:polygon(0 0, calc(100% - 42px) 0, 100% 42px, 100% 100%, 0 100%);
+      transition:transform .5s cubic-bezier(.4,0,.2,1),background .4s ease,color .4s ease,box-shadow .4s ease,border-color .4s ease;
     }
-    .stagger-card:last-child{margin-bottom:40px}
-    .stagger-card:nth-child(1){top:120px;z-index:1}
-    .stagger-card:nth-child(2){top:132px;z-index:2}
-    .stagger-card:nth-child(3){top:144px;z-index:3}
-    .stagger-card:nth-child(4){top:156px;z-index:4}
-    .stagger-card:nth-child(5){top:168px;z-index:5}
-    .stagger-card:nth-child(6){top:180px;z-index:6}
-    .stagger-card.is-stacked{transform:scale(.96);box-shadow:0 2px 8px -2px rgba(0,0,0,.05);opacity:.85}
     .stagger-card .av-icon{
-      width:48px;height:48px;border-radius:12px;flex-shrink:0;
-      background:rgba(193,55,42,.08);
-      display:grid;place-items:center;
+      width:50px;height:50px;border-radius:13px;flex-shrink:0;
+      background:rgba(193,55,42,.08);display:grid;place-items:center;
+      transition:background .4s ease;
     }
-    .stagger-card .av-icon svg{width:22px;height:22px;stroke:var(--brand);stroke-width:2;fill:none}
-    .stagger-card h4{font-family:'Sora',sans-serif;font-size:1.05rem;font-weight:700;color:var(--ink);margin:0 0 6px}
-    .stagger-card p{font-size:.92rem;color:var(--muted);margin:0;line-height:1.6}
+    .stagger-card .av-icon svg{width:24px;height:24px;stroke:var(--brand);stroke-width:2;fill:none;transition:stroke .4s ease}
+    .stagger-card h4{font-family:'Sora',sans-serif;font-size:1.18rem;font-weight:700;color:inherit;margin:20px 0 10px}
+    .stagger-card p{font-size:.95rem;color:var(--muted);margin:0;line-height:1.6;transition:color .4s ease}
+    .stagger-card.is-center{background:var(--brand);color:#fff;border-color:var(--brand);box-shadow:0 8px 0 4px var(--line)}
+    .stagger-card.is-center .av-icon{background:rgba(255,255,255,.18)}
+    .stagger-card.is-center .av-icon svg{stroke:#fff}
+    .stagger-card.is-center p{color:rgba(255,255,255,.88)}
+    .stagger-nav{display:flex;justify-content:center;gap:14px;margin-top:10px}
+    .stagger-nav button{
+      width:54px;height:54px;border-radius:13px;border:1px solid var(--line);
+      background:#fff;color:var(--ink);cursor:pointer;display:grid;place-items:center;
+      transition:background .2s ease,color .2s ease,border-color .2s ease;
+    }
+    .stagger-nav button svg{width:22px;height:22px;stroke:currentColor;stroke-width:2.2;fill:none}
+    .stagger-nav button:hover{background:var(--brand);color:#fff;border-color:var(--brand)}
     @media(max-width:640px){
-      .stagger-card{padding:20px;gap:14px;margin-bottom:120px}
-      .stagger-card:nth-child(n){top:80px}
+      .stagger-carousel{height:360px}
+      .stagger-card{width:262px;height:262px;padding:22px}
+      .stagger-card h4{font-size:1.05rem;margin:14px 0 8px}
+      .stagger-card p{font-size:.88rem}
     }
 
     /* Bloc adresse */
@@ -339,31 +340,35 @@
       <h2 id="avantages-title">Les avantages de votre service logistique</h2>
     </div>
 
-    <div class="stagger-list" id="staggerList">
+    <div class="stagger-carousel" id="staggerCarousel">
       <div class="stagger-card">
         <div class="av-icon"><svg viewBox="0 0 24 24"><path d="M12 2L3 7v6c0 5 3.8 8.5 9 9 5.2-.5 9-4 9-9V7l-9-5z"/><path d="M9 12l2 2 4-4"/></svg></div>
-        <div><h4>Sécurité renforcée</h4><p>Caméras de surveillance, alarmes et détecteurs de mouvement — votre stock est protégé en permanence.</p></div>
+        <h4>Sécurité renforcée</h4><p>Caméras de surveillance, alarmes et détecteurs de mouvement — votre stock est protégé en permanence.</p>
       </div>
       <div class="stagger-card">
         <div class="av-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
-        <div><h4>Réduction des coûts</h4><p>Stockage centralisé et cross-docking optimisé pour rationaliser vos dépenses logistiques.</p></div>
+        <h4>Réduction des coûts</h4><p>Stockage centralisé et cross-docking optimisé pour rationaliser vos dépenses logistiques.</p>
       </div>
       <div class="stagger-card">
         <div class="av-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
-        <div><h4>Matériel récent</h4><p>Chariots élévateurs, transpalettes et gerbeurs récents pour une gestion efficace de vos stocks.</p></div>
+        <h4>Matériel récent</h4><p>Chariots élévateurs, transpalettes et gerbeurs récents pour une gestion efficace de vos stocks.</p>
       </div>
       <div class="stagger-card">
         <div class="av-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-        <div><h4>Flexibilité &amp; réactivité</h4><p>Ajustement rapide des stocks selon vos volumes, pour vous concentrer sur votre cœur de métier.</p></div>
+        <h4>Flexibilité &amp; réactivité</h4><p>Ajustement rapide des stocks selon vos volumes, pour vous concentrer sur votre cœur de métier.</p>
       </div>
       <div class="stagger-card">
         <div class="av-icon"><svg viewBox="0 0 24 24"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
-        <div><h4>Du dépôt à la livraison</h4><p>Combiné à notre flotte de transport, nous couvrons toute la chaîne — sans rupture ni intermédiaire.</p></div>
+        <h4>Du dépôt à la livraison</h4><p>Combiné à notre flotte de transport, nous couvrons toute la chaîne — sans rupture ni intermédiaire.</p>
       </div>
       <div class="stagger-card">
         <div class="av-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-        <div><h4>Solutions sur mesure</h4><p>Du colis à la palette, nous adaptons notre offre à vos besoins — quelle que soit votre activité.</p></div>
+        <h4>Solutions sur mesure</h4><p>Du colis à la palette, nous adaptons notre offre à vos besoins — quelle que soit votre activité.</p>
       </div>
+    </div>
+    <div class="stagger-nav">
+      <button id="staggerPrev" aria-label="Avantage précédent"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <button id="staggerNext" aria-label="Avantage suivant"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></button>
     </div>
 
     <!-- Adresse -->
@@ -418,24 +423,43 @@
 <script src="assets/js/main.js" defer></script>
 <script>
 (function(){
-  var cards = Array.from(document.querySelectorAll('#staggerList .stagger-card'));
+  var carousel = document.getElementById('staggerCarousel');
+  if(!carousel) return;
+  var cards = Array.from(carousel.querySelectorAll('.stagger-card'));
   if(!cards.length) return;
-  function update(){
-    cards.forEach(function(card, i){
-      if(i === cards.length - 1){ card.classList.remove('is-stacked'); return; }
-      var next = cards[i + 1];
-      var nextTop = next.getBoundingClientRect().top;
-      var stickyTop = 120 + (i + 1) * 12; // matches CSS top values
-      // card becomes stacked once the next card reaches its sticky position
-      if(nextTop <= stickyTop + 4){
-        card.classList.add('is-stacked');
-      } else {
-        card.classList.remove('is-stacked');
-      }
+  // pré-rotation : la 1re carte est centrée au chargement
+  var mid = Math.floor(cards.length / 2);
+  var order = cards.slice(cards.length - mid).concat(cards.slice(0, cards.length - mid));
+
+  function cardSize(){ return window.innerWidth < 640 ? 262 : 340; }
+
+  function render(){
+    var len = order.length;
+    var size = cardSize();
+    order.forEach(function(card, index){
+      var position = len % 2 ? index - (len - 1) / 2 : index - len / 2;
+      var isCenter = position === 0;
+      var even = Math.abs(position) % 2 === 0;
+      var ty = isCenter ? -65 : (even ? -15 : 15);
+      var rot = isCenter ? 0 : (even ? -2.5 : 2.5);
+      card.style.transform =
+        'translate(-50%, -50%) translateX(' + ((size / 1.5) * position) + 'px) translateY(' + ty + 'px) rotate(' + rot + 'deg)';
+      card.style.zIndex = isCenter ? 20 : (10 - Math.abs(position));
+      card.classList.toggle('is-center', isCenter);
+      card.onclick = function(){ if(position !== 0) move(position); };
     });
   }
-  window.addEventListener('scroll', update, {passive: true});
-  update();
+
+  function move(steps){
+    if(steps > 0){ for(var i = 0; i < steps; i++){ order.push(order.shift()); } }
+    else { for(var j = 0; j < Math.abs(steps); j++){ order.unshift(order.pop()); } }
+    render();
+  }
+
+  document.getElementById('staggerPrev').onclick = function(){ move(-1); };
+  document.getElementById('staggerNext').onclick = function(){ move(1); };
+  window.addEventListener('resize', render);
+  render();
 })();
 </script>
 </body>
