@@ -196,6 +196,37 @@
 .clients-band-track{display:flex;align-items:center;gap:56px;width:max-content;padding:0 28px;animation:band-scroll 20s linear infinite}
 .clients-band-track img{height:42px;width:auto;max-width:200px;object-fit:contain;flex-shrink:0}
 @keyframes band-scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* Avis en carousel éventail — MOBILE UNIQUEMENT */
+.reviews-nav{display:none}
+@media(max-width:760px){
+  .reviews.reviews-carousel{display:block;position:relative;height:400px;overflow:hidden;margin-top:6px}
+  .reviews-carousel .review{
+    position:absolute;left:50%;top:50%;
+    width:280px;height:300px;box-sizing:border-box;
+    padding:24px;display:flex;flex-direction:column;opacity:1;
+    cursor:pointer;
+    transition:transform .5s cubic-bezier(.4,0,.2,1),background .4s ease,color .4s ease,box-shadow .4s ease,border-color .4s ease;
+  }
+  .reviews-carousel .review:hover{transform:translate(-50%,-50%);box-shadow:none}
+  .reviews-carousel .review p{
+    overflow:hidden;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;
+    flex-grow:1;margin-bottom:14px;
+  }
+  .reviews-carousel .review.is-center{background:var(--brand);border-color:var(--brand);box-shadow:0 8px 0 4px var(--line)}
+  .reviews-carousel .review.is-center .stars{color:#fff}
+  .reviews-carousel .review.is-center p{color:rgba(255,255,255,.92)}
+  .reviews-carousel .review.is-center .who b{color:#fff}
+  .reviews-carousel .review.is-center .who small{color:rgba(255,255,255,.78)}
+  .reviews-carousel .review.is-center .av{background:#fff;color:var(--brand)}
+  .reviews-nav{display:flex;justify-content:center;gap:14px;margin-top:8px}
+  .reviews-nav button{
+    width:54px;height:54px;border-radius:13px;border:1px solid var(--line);
+    background:#fff;color:var(--ink);cursor:pointer;display:grid;place-items:center;
+    transition:background .2s ease,color .2s ease,border-color .2s ease;
+  }
+  .reviews-nav button svg{width:22px;height:22px;stroke:currentColor;stroke-width:2.2;fill:none}
+}
 </style>
 
 <!-- ================= SERVICES (teaser) ================= -->
@@ -330,7 +361,7 @@
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
     </div>
-    <div class="reviews">
+    <div class="reviews reviews-carousel" id="reviewsCarousel">
       <article class="review reveal d1">
         <div class="stars" aria-label="5 sur 5">★★★★★</div>
         <p>« Ils sont venus très très rapidement, une équipe super sympa. Merci pour votre professionnalisme et votre sympathie. »</p>
@@ -361,6 +392,10 @@
         <p>« Je vous remercie pour la réactivité et la qualité du transport de nos sites. »</p>
         <div class="who"><div class="av">E</div><div><b>Émile Ludmer</b><small>il y a 6 mois</small></div></div>
       </article>
+    </div>
+    <div class="reviews-nav">
+      <button id="reviewsPrev" aria-label="Avis précédent"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <button id="reviewsNext" aria-label="Avis suivant"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></button>
     </div>
   </div>
 </section>
@@ -422,5 +457,65 @@
 </footer>
 
 <script src="assets/js/main.js" defer></script>
+<script>
+/* Carousel éventail des avis — actif uniquement sur mobile (<=760px) */
+(function(){
+  var carousel = document.getElementById('reviewsCarousel');
+  if(!carousel) return;
+  var cards = Array.from(carousel.querySelectorAll('.review'));
+  if(!cards.length) return;
+  var MOBILE = 760;
+  var mid = Math.floor(cards.length / 2);
+  var order = cards.slice(cards.length - mid).concat(cards.slice(0, cards.length - mid));
+
+  function isMobile(){ return window.innerWidth <= MOBILE; }
+
+  function clearStyles(){
+    cards.forEach(function(c){ c.style.transform=''; c.style.zIndex=''; c.classList.remove('is-center'); c.onclick=null; });
+  }
+
+  function render(){
+    if(!isMobile()){ clearStyles(); return; }
+    var len = order.length;
+    var size = 280;
+    order.forEach(function(card, index){
+      var position = len % 2 ? index - (len - 1) / 2 : index - len / 2;
+      var isCenter = position === 0;
+      var even = Math.abs(position) % 2 === 0;
+      var ty = isCenter ? -50 : (even ? -10 : 12);
+      var rot = isCenter ? 0 : (even ? -2.5 : 2.5);
+      card.style.transform =
+        'translate(-50%, -50%) translateX(' + ((size / 1.7) * position) + 'px) translateY(' + ty + 'px) rotate(' + rot + 'deg)';
+      card.style.zIndex = isCenter ? 20 : (10 - Math.abs(position));
+      card.classList.toggle('is-center', isCenter);
+      card.onclick = function(){ if(position !== 0) move(position); };
+    });
+  }
+
+  function move(steps){
+    if(!isMobile()) return;
+    if(steps > 0){ for(var i = 0; i < steps; i++){ order.push(order.shift()); } }
+    else { for(var j = 0; j < Math.abs(steps); j++){ order.unshift(order.pop()); } }
+    render();
+  }
+
+  document.getElementById('reviewsPrev').onclick = function(){ move(-1); };
+  document.getElementById('reviewsNext').onclick = function(){ move(1); };
+
+  var startX = 0, startY = 0, swiping = false;
+  carousel.addEventListener('touchstart', function(e){
+    startX = e.touches[0].clientX; startY = e.touches[0].clientY; swiping = true;
+  }, {passive: true});
+  carousel.addEventListener('touchend', function(e){
+    if(!swiping) return; swiping = false;
+    var dx = e.changedTouches[0].clientX - startX;
+    var dy = e.changedTouches[0].clientY - startY;
+    if(Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)){ move(dx < 0 ? 1 : -1); }
+  }, {passive: true});
+
+  window.addEventListener('resize', render);
+  render();
+})();
+</script>
 </body>
 </html>
