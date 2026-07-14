@@ -164,7 +164,7 @@
       <p>Pour les filières où la confidentialité, la température ou la valeur des marchandises l'exigent, nous construisons des lignes dédiées avec un cahier des charges adapté.</p>
     </div>
 
-    <div class="sectors-grid reveal">
+    <div class="sectors-grid reveal" id="sectorsCarousel">
 
       <!-- AÉRONAUTIQUE -->
       <article class="sector-card">
@@ -228,6 +228,12 @@
 
     </div>
 
+    <div class="sectors-nav">
+      <button id="sectorsPrev" aria-label="Secteur précédent"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div class="sectors-dots" id="sectorsDots" aria-hidden="true"></div>
+      <button id="sectorsNext" aria-label="Secteur suivant"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></button>
+    </div>
+
     <p style="text-align:center;color:var(--muted);font-size:.9rem;margin-top:32px">Votre secteur n'est pas listé ? Nous étudions chaque besoin spécifique — <a href="contact.html" style="color:var(--brand)">parlez-nous-en</a>.</p>
   </div>
 </section>
@@ -245,7 +251,29 @@
 .sector-body ul{padding-left:18px;margin:0}
 .sector-body li{font-size:.92rem;line-height:1.65;color:var(--ink-2,#3d4149);margin-bottom:7px}
 .sector-body li::marker{color:var(--brand)}
-@media(max-width:760px){.sectors-grid{grid-template-columns:1fr;gap:22px;max-width:460px}}
+/* Secteurs en carousel swipe — MOBILE UNIQUEMENT (une carte visible) */
+.sectors-nav{display:none}
+@media(max-width:760px){
+  .sectors-grid{
+    display:flex;grid-template-columns:none;flex-wrap:nowrap;
+    max-width:none;gap:14px;margin:28px -24px 0;padding:4px 24px 8px;
+    overflow-x:auto;scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;scrollbar-width:none;scroll-padding:0 24px;
+  }
+  .sectors-grid::-webkit-scrollbar{display:none}
+  .sector-card{flex:0 0 88%;scroll-snap-align:center}
+  .sector-card:hover{transform:none;box-shadow:0 6px 30px -12px rgba(0,0,0,.12)}
+  .sectors-nav{display:flex;justify-content:center;align-items:center;gap:14px;margin-top:16px}
+  .sectors-nav button{
+    width:52px;height:52px;border-radius:13px;border:1px solid var(--line);
+    background:#fff;color:var(--ink);cursor:pointer;display:grid;place-items:center;
+    transition:background .2s ease,color .2s ease,border-color .2s ease;
+  }
+  .sectors-nav button svg{width:22px;height:22px;stroke:currentColor;stroke-width:2.2;fill:none}
+  .sectors-dots{display:flex;gap:7px}
+  .sectors-dots i{width:7px;height:7px;border-radius:50%;background:var(--line);transition:background .25s ease,width .25s ease}
+  .sectors-dots i.on{background:var(--brand);width:20px;border-radius:4px}
+}
 </style>
 
 <!-- ================= CTA BAND ================= -->
@@ -284,5 +312,53 @@
 </footer>
 
 <script src="assets/js/main.js" defer></script>
+<script>
+/* Carousel swipe des secteurs — piloté par le scroll natif (mobile) */
+(function(){
+  var track = document.getElementById('sectorsCarousel');
+  if(!track) return;
+  var cards = Array.from(track.querySelectorAll('.sector-card'));
+  var dotsWrap = document.getElementById('sectorsDots');
+  var prev = document.getElementById('sectorsPrev');
+  var next = document.getElementById('sectorsNext');
+  if(!cards.length || !dotsWrap) return;
+
+  // dots
+  cards.forEach(function(_,i){
+    var d = document.createElement('i');
+    if(i===0) d.className='on';
+    dotsWrap.appendChild(d);
+  });
+  var dots = Array.from(dotsWrap.children);
+
+  function current(){
+    var c = track.scrollLeft + track.clientWidth/2;
+    var best=0, bestD=Infinity;
+    cards.forEach(function(card,i){
+      var center = card.offsetLeft + card.offsetWidth/2;
+      var d = Math.abs(center - (track.scrollLeft + track.clientWidth/2));
+      if(d<bestD){ bestD=d; best=i; }
+    });
+    return best;
+  }
+  function sync(){
+    var idx = current();
+    dots.forEach(function(d,i){ d.classList.toggle('on', i===idx); });
+  }
+  function goTo(i){
+    i = Math.max(0, Math.min(cards.length-1, i));
+    var card = cards[i];
+    track.scrollTo({left: card.offsetLeft - track.offsetLeft, behavior:'smooth'});
+  }
+  var raf;
+  track.addEventListener('scroll', function(){
+    if(raf) cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(sync);
+  }, {passive:true});
+  prev.onclick = function(){ goTo(current()-1); };
+  next.onclick = function(){ goTo(current()+1); };
+  sync();
+})();
+</script>
 </body>
 </html>
