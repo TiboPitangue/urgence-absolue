@@ -508,9 +508,12 @@ footer{background:var(--ink);color:rgba(255,255,255,.75);padding:56px 0 28px}
 }
 @media(max-width:760px){
   .pad{padding:64px 0}
-  .grid-services,.grid-3,.perks,.perks.two,.reviews,.stats{grid-template-columns:1fr}
+  .grid-services,.grid-3,.perks,.perks.two,.reviews{grid-template-columns:1fr}
   .grid-services{grid-template-columns:repeat(2,1fr)}
-  .stats{border:0}.stats .s{border:1px solid var(--line);border-radius:12px}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .stats .s{padding:22px 12px}
+  .stats .s b{font-size:1.55rem}
+  .stats .s span{font-size:.8rem;margin-top:6px}
   .grid-2{grid-template-columns:1fr}
   .fleet-panel,.fleet-panel.active{grid-template-columns:1fr}
   .foot-grid{grid-template-columns:1fr}
