@@ -522,8 +522,9 @@ footer{background:var(--ink);color:rgba(255,255,255,.75);padding:56px 0 28px}
   .nav-cta .btn{white-space:nowrap}
   /* Badge tag : décale le contenu pour éviter le chevauchement sur mobile */
   .svc-card .card-body{padding-top:58px}
-  /* Filigrane logo hero : masqué sur mobile (chevauchait le texte) */
-  .page-hero.hero-white .ph-logo{display:none}
+  /* Filigrane logo hero : réduit et placé en coin haut-droit sur mobile
+     (évite le chevauchement avec le titre tout en restant visible) */
+  .page-hero.hero-white .ph-logo{width:120px;right:5%;top:96px;transform:none;opacity:.28}
 }
 @media(max-width:480px){
   .grid-services{grid-template-columns:1fr}
