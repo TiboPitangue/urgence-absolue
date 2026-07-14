@@ -522,9 +522,10 @@ footer{background:var(--ink);color:rgba(255,255,255,.75);padding:56px 0 28px}
   .nav-cta .btn{white-space:nowrap}
   /* Badge tag : décale le contenu pour éviter le chevauchement sur mobile */
   .svc-card .card-body{padding-top:58px}
-  /* Filigrane logo hero : réduit et placé en coin haut-droit sur mobile
-     (évite le chevauchement avec le titre tout en restant visible) */
-  .page-hero.hero-white .ph-logo{width:120px;right:5%;top:96px;transform:none;opacity:.28}
+  /* Logo hero sur mobile : on dégage de l'espace en haut et on place le
+     logo plus grand au-dessus de l'accroche (tiret rouge + eyebrow) */
+  .page-hero.hero-white{padding-top:210px}
+  .page-hero.hero-white .ph-logo{width:190px;left:5%;right:auto;top:118px;transform:none;opacity:.55}
 }
 @media(max-width:480px){
   .grid-services{grid-template-columns:1fr}
