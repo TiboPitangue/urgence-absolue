@@ -245,6 +245,7 @@ body.home header.nav:not(.scrolled) .burger span{background:#fff}
 .stats .s{background:#fff;padding:30px 22px;text-align:center}
 .stats .s b{font-family:'Sora';font-size:2.1rem;font-weight:800;color:var(--brand);display:block;line-height:1}
 .stats .s span{font-size:.9rem;color:var(--muted);margin-top:8px;display:block}
+.stats-dots{display:none}
 
 /* ============ SERVICES ============ */
 .grid-services{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
@@ -510,10 +511,25 @@ footer{background:var(--ink);color:rgba(255,255,255,.75);padding:56px 0 28px}
   .pad{padding:64px 0}
   .grid-services,.grid-3,.perks,.perks.two,.reviews{grid-template-columns:1fr}
   .grid-services{grid-template-columns:repeat(2,1fr)}
-  .stats{grid-template-columns:repeat(2,1fr)}
-  .stats .s{padding:22px 12px}
-  .stats .s b{font-size:1.55rem}
-  .stats .s span{font-size:.8rem;margin-top:6px}
+  /* Stats : bandeau rouge en carrousel (une case visible, swipe) */
+  .stats{
+    display:flex;grid-template-columns:none;flex-wrap:nowrap;gap:0;
+    background:linear-gradient(135deg,var(--brand-dark),var(--brand));
+    border:0;border-radius:22px;
+    overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  .stats::-webkit-scrollbar{display:none}
+  .stats .s{
+    flex:0 0 100%;scroll-snap-align:center;
+    background:transparent;border:0;border-radius:0;
+    padding:44px 24px;
+  }
+  .stats .s b{color:#fff;font-size:2.3rem}
+  .stats .s span{color:rgba(255,255,255,.85);font-size:.92rem;margin-top:10px}
+  .stats-dots{display:flex;justify-content:center;gap:7px;margin-top:16px}
+  .stats-dots i{width:7px;height:7px;border-radius:50%;background:var(--line);transition:all .3s}
+  .stats-dots i.on{background:var(--brand);width:20px;border-radius:4px}
   .grid-2{grid-template-columns:1fr}
   .fleet-panel,.fleet-panel.active{grid-template-columns:1fr}
   .foot-grid{grid-template-columns:1fr}

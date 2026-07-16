@@ -112,12 +112,13 @@
 <!-- ================= STATS ================= -->
 <section class="pad-sm bg-paper">
   <div class="wrap">
-    <div class="stats reveal">
+    <div class="stats reveal" id="statsCarousel">
       <div class="s"><b>24/7</b><span>Réactivité, week-ends &amp; jours fériés inclus</span></div>
       <div class="s"><b>Express</b><span>Réactivité maximale pour vos urgences transport</span></div>
       <div class="s"><b>À l'écoute</b><span>Une exploitation disponible pour chaque situation</span></div>
       <div class="s"><b>Traçabilité</b><span>Suivi de votre marchandise de bout en bout</span></div>
     </div>
+    <div class="stats-dots" id="statsDots" aria-hidden="true"></div>
   </div>
 </section>
 
@@ -205,5 +206,20 @@
 </footer>
 
 <script src="assets/js/main.js" defer></script>
+<script>
+(function(){
+  var track=document.getElementById('statsCarousel'),dots=document.getElementById('statsDots');
+  if(!track||!dots)return;
+  var cards=[].slice.call(track.querySelectorAll('.s'));
+  cards.forEach(function(_,i){var d=document.createElement('i');d.onclick=function(){goTo(i)};dots.appendChild(d)});
+  function current(){var c=track.scrollLeft+track.clientWidth/2,best=0,bd=1e9;
+    cards.forEach(function(el,i){var m=el.offsetLeft+el.clientWidth/2,d=Math.abs(m-track.scrollLeft-track.clientWidth/2);if(d<bd){bd=d;best=i}});
+    return best;}
+  function sync(){var n=current();[].forEach.call(dots.children,function(d,i){d.className=i===n?'on':''})}
+  function goTo(i){var el=cards[i];if(el)track.scrollTo({left:el.offsetLeft-track.offsetLeft,behavior:'smooth'})}
+  var raf;track.addEventListener('scroll',function(){cancelAnimationFrame(raf);raf=requestAnimationFrame(sync)});
+  sync();
+})();
+</script>
 </body>
 </html>
